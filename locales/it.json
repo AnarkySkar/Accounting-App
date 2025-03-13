@@ -1,0 +1,215 @@
+{
+  "date_picker_placeholder": "Seleziona una data",
+  "no_results": "Nessun risultato.",
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome_message": "Bentornato!",
+    "annualCard": {
+      "description": "Questa è la panoramica dei dati della tua attività. Puoi esportare un report dettagliato in PDF o Excel e consegnarlo al CPA durante la dichiarazione dei redditi.",
+      "title": "Panoramica Finanziaria Annuale",
+      "business_income": "Reddito d'impresa",
+      "personal_income": "Reddito personale",
+      "business_expenses": "Spese aziendali",
+      "personal_expenses": "Spese personali",
+      "total_income": "Reddito totale",
+      "total_expenses": "Spese totali",
+      "copy_annual_data": "Copia dati annuali",
+      "annual_data_copied": "Dati annuali copiati"
+    },
+    "tabs": {
+      "invoices": "Fatture",
+      "expenses": "Spese",
+      "revenue": "Entrate",
+      "dividends": "Dividendi",
+      "weekly": "Settimanale",
+      "monthly": "Mensile",
+      "yearly": "Annuale"
+    },
+    "invoices": {
+      "total": "Totale fatture",
+      "totalAmount": "Importo totale delle fatture",
+      "uploaded": "Fatture caricate",
+      "generated": "Fatture generate",
+      "amount": "Importo fattura",
+      "recent": "Fatture recenti"
+    },
+    "expenses": {
+      "total": "Totale spese",
+      "totalAmount": "Importo totale delle spese",
+      "uploaded": "Spese caricate",
+      "businessExpenses": "Spese aziendali",
+      "personalExpenses": "Spese personali",
+      "amount": "Importo spesa",
+      "recent": "Spese recenti"
+    },
+    "revenue": {
+      "total": "Totale entrate",
+      "totalAmount": "Importo totale delle entrate",
+      "uploaded": "Entrate caricate",
+      "recent": "Entrate recenti",
+      "businessExpenses": "Spese aziendali",
+      "personalExpenses": "Spese personali",
+      "amount": "Importo entrate"
+    },
+    "dividends": {
+      "total": "Totale dividendi",
+      "totalAmount": "Importo totale dei dividendi",
+      "uploaded": "Dividendi caricati",
+      "recent": "Dividendi recenti",
+      "amount": "Importo dividendi"
+    }
+  },
+  "invoices": {
+    "description": "Ecco un elenco delle tue fatture",
+    "create_invoice": {
+      "dialog_title": "Aggiungi Fattura",
+      "title": "Titolo",
+      "amount": "Importo Totale $",
+      "toast": {
+        "success": {
+          "title": "Fattura creata!",
+          "description": "Fattura creata con successo"
+        },
+        "error": {
+          "title": "Errore nella creazione della fattura",
+          "description": "Errore nella creazione della fattura"
+        }
+      },
+      "button": {
+        "add": "Aggiungi Fattura",
+        "loading": "Aggiunta della fattura in corso..."
+      }
+    }
+  },
+  "data-table-toolbar": {
+    "filter": {
+      "expenses": "Filtra spese...",
+      "invoices": "Filtra fatture...",
+      "revenue": "Filtra entrate...",
+      "dividends": "Filtra dividendi..."
+    }
+  },
+  "expenses": {
+    "description": "Registra qui le spese sostenute ogni mese. Per i dettagli di ciascuna spesa, tieni traccia delle fatture o ricevute corrispondenti."
+  },
+  "revenue": {
+    "description": "Registra il reddito mensile della tua LLC. Non è necessario inserire ogni singola transazione, ma solo il totale mensile."
+  },
+  "dividends": {
+    "description": "Registra qui i dividendi pagati ai soci. Questi dati sono fondamentali per la dichiarazione fiscale."
+  },
+  "company-info": {
+    "description": "Questa sezione contiene i principali dati della tua LLC. Ti consigliamo di aggiornarli se cambiano, soprattutto la residenza fiscale e i documenti aziendali.",
+    "title": "Registrazione Azienda",
+    "subtitle": "Puoi visualizzare i dettagli della tua azienda qui e aggiornarli se necessario"
+  },
+  "assets": {
+    "description": "Inserisci qui il valore totale delle attività della tua LLC al 31 dicembre. Questa informazione è necessaria per la dichiarazione fiscale."
+  },
+  "documents": {
+    "description": "Carica qui i documenti relativi all'attività della tua LLC. Questi file sono necessari per la gestione contabile e la dichiarazione fiscale."
+  },
+  "sidebar": {
+    "dashboard": "Pannello di controllo",
+    "invoices": "Fatture",
+    "expenses": "Spese",
+    "revenue": "Entrate",
+    "dividends": "Dividendi",
+    "gen-invoice": "Genera Fattura",
+    "company-info": "Informazioni Azienda",
+    "faq": "Domande frequenti",
+    "assets": "Attività",
+    "documents": "Documenti"
+  },
+  "faq": {
+    "title": "Domande Frequenti",
+    "description": "Trova risposte alle domande comuni sui nostri prodotti, servizi e su come ottenere il massimo dalla nostra piattaforma.",
+    "categories": {
+      "general": "Generale",
+      "account": "Account",
+      "features": "Funzionalità",
+      "support": "Supporto"
+    },
+    "sections": {
+      "general": {
+        "title": "Informazioni Generali",
+        "description": "Informazioni di base sulla nostra azienda e sui servizi"
+      },
+      "account": {
+        "title": "Account e Fatturazione",
+        "description": "Informazioni sul tuo account e sulle opzioni di fatturazione"
+      },
+      "features": {
+        "title": "Funzionalità del Prodotto",
+        "description": "Scopri di più sulle funzionalità e capacità del nostro prodotto"
+      },
+      "support": {
+        "title": "Risoluzione Problemi e Supporto",
+        "description": "Aiuto con problemi comuni e opzioni di supporto"
+      }
+    },
+    "questions": {
+      "general": {
+        "q1": {
+          "question": "Che cos'è [Nome della tua azienda]?",
+          "answer": "[Nome della tua azienda] è [breve descrizione della tua azienda]. Forniamo [servizi/prodotti] per aiutare i nostri clienti [proposta di valore]."
+        },
+        "q2": {
+          "question": "Come posso contattare l'assistenza clienti?",
+          "answer": "Puoi contattare il nostro team di assistenza clienti via email all'indirizzo support@example.com o telefonicamente al numero (123) 456-7890. I nostri orari di assistenza sono dal lunedì al venerdì, dalle 9:00 alle 17:00 CET."
+        },
+        "q3": {
+          "question": "Dove si trova la vostra azienda?",
+          "answer": "La nostra sede centrale si trova a [Città, Stato/Paese]. Abbiamo anche uffici in [elencare altre sedi se applicabile]."
+        }
+      },
+      "account": {
+        "q1": {
+          "question": "Come creo un account?",
+          "answer": "Per creare un account, fai clic sul pulsante \"Registrati\" nell'angolo in alto a destra del nostro sito web. Inserisci i tuoi dati, accetta i nostri termini di servizio e fai clic su \"Crea account\". Riceverai un'email di conferma per verificare il tuo account."
+        },
+        "q2": {
+          "question": "Quali metodi di pagamento accettate?",
+          "answer": "Accettiamo tutte le principali carte di credito (Visa, MasterCard, American Express, Discover), PayPal e bonifici bancari. Per i clienti aziendali, offriamo anche opzioni di fatturazione."
+        },
+        "q3": {
+          "question": "Come posso annullare il mio abbonamento?",
+          "answer": "Puoi annullare il tuo abbonamento in qualsiasi momento andando nelle Impostazioni account e selezionando \"Abbonamento\". Fai clic su \"Annulla abbonamento\" e segui le istruzioni. Il tuo accesso continuerà fino alla fine del periodo di fatturazione corrente."
+        }
+      },
+      "features": {
+        "q1": {
+          "question": "Quali sono le caratteristiche principali della vostra piattaforma?",
+          "answer": "La nostra piattaforma offre [elencare le caratteristiche principali], progettate per aiutarti [benefici]. Ogni funzionalità è costruita tenendo presente [punti di vendita unici]."
+        },
+        "q2": {
+          "question": "Offrite accesso API?",
+          "answer": "Sì, forniamo un accesso API completo per tutti i piani a pagamento. La nostra API RESTful ti consente di integrare i nostri servizi con i tuoi sistemi esistenti. La documentazione dettagliata è disponibile nel nostro Hub per sviluppatori."
+        },
+        "q3": {
+          "question": "È disponibile un'app mobile?",
+          "answer": "Sì, offriamo app mobili sia per dispositivi iOS che Android. Puoi scaricarle dall'Apple App Store o dal Google Play Store. Le nostre app mobili forniscono la maggior parte delle funzionalità disponibili sulla piattaforma web."
+        }
+      },
+      "support": {
+        "q1": {
+          "question": "Ho dimenticato la password. Come posso reimpostarla?",
+          "answer": "Fai clic sul link \"Password dimenticata\" nella pagina di accesso. Inserisci l'indirizzo email associato al tuo account e ti invieremo un link per reimpostare la password. Segui le istruzioni nell'email per creare una nuova password."
+        },
+        "q2": {
+          "question": "Il sistema è lento. Cosa posso fare?",
+          "answer": "Se riscontri prestazioni lente, prova a cancellare la cache e i cookie del browser. Assicurati di utilizzare un browser supportato (ultime versioni di Chrome, Firefox, Safari o Edge). Se il problema persiste, contatta il nostro team di supporto."
+        },
+        "q3": {
+          "question": "Offrite formazione o onboarding?",
+          "answer": "Sì, offriamo un onboarding completo per tutti i nuovi clienti. Questo include l'accesso alla nostra knowledge base, tutorial video e documentazione. I clienti aziendali ricevono anche sessioni di formazione personalizzate con il nostro team di successo clienti."
+        }
+      }
+    },
+    "contact": {
+      "title": "Hai ancora domande?",
+      "description": "Se non hai trovato la risposta che stavi cercando, contatta il nostro team di supporto.",
+      "button": "Contatta il Supporto"
+    }
+  }
+}
