@@ -97,14 +97,34 @@ const StoragePage = () => {
           const fileName = `${Date.now()}-${file.name}`;
           const filePath = `${user.id}/documents/${fileName}`;
 
-          const { error } = await supabase.storage
-            .from("documents")
-            .upload(filePath, file, {
-              cacheControl: "3600",
-              upsert: false,
-            });
+          // const { error } = await supabase.storage
+          //   .from("documents")
+          //   .upload(filePath, file, {
+          //     cacheControl: "3600",
+          //     upsert: false,
+          //   });
 
-          if (error) throw error;
+          // if (error) throw error;
+
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("company_id", user.id);
+          formData.append("folder", "documents");
+
+          // Upload the file using a dedicated file upload endpoint
+          const uploadResponse = await fetch("/api/upload-file", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!uploadResponse.ok) {
+            const errorData = await uploadResponse.json();
+            throw new Error(errorData.message || "File upload failed");
+          }
+
+          const uploadResult = await uploadResponse.json();
+
+          console.log(uploadResult);
 
           // Update progress
           const progress = ((i + 1) / acceptedFiles.length) * 100;

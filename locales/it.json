@@ -14,7 +14,10 @@
       "total_income": "Reddito totale",
       "total_expenses": "Spese totali",
       "copy_annual_data": "Copia dati annuali",
-      "annual_data_copied": "Dati annuali copiati"
+      "annual_data_copied": "Dati annuali copiati",
+      "total_physical_assets": "Attività fisiche totali",
+      "total_digital_assets": "Attività digitali totali",
+      "total_liquid_assets": "Attività liquide totali"
     },
     "tabs": {
       "invoices": "Fatture",
@@ -86,7 +89,8 @@
       "expenses": "Filtra spese...",
       "invoices": "Filtra fatture...",
       "revenue": "Filtra entrate...",
-      "dividends": "Filtra dividendi..."
+      "dividends": "Filtra dividendi...",
+      "assets": "Filtra attività..."
     }
   },
   "expenses": {
@@ -123,93 +127,90 @@
   },
   "faq": {
     "title": "Domande Frequenti",
-    "description": "Trova risposte alle domande comuni sui nostri prodotti, servizi e su come ottenere il massimo dalla nostra piattaforma.",
-    "categories": {
-      "general": "Generale",
-      "account": "Account",
-      "features": "Funzionalità",
-      "support": "Supporto"
+    "description": "Trova risposte alle domande comuni sui servizi di Transfer Manager Consulting",
+    "tabs": {
+      "assistance": "Assistenza",
+      "training": "Formazione",
+      "experience": "Experience",
+      "technical": "Supporto Tecnico"
     },
-    "sections": {
-      "general": {
-        "title": "Informazioni Generali",
-        "description": "Informazioni di base sulla nostra azienda e sui servizi"
-      },
-      "account": {
-        "title": "Account e Fatturazione",
-        "description": "Informazioni sul tuo account e sulle opzioni di fatturazione"
-      },
-      "features": {
-        "title": "Funzionalità del Prodotto",
-        "description": "Scopri di più sulle funzionalità e capacità del nostro prodotto"
-      },
-      "support": {
-        "title": "Risoluzione Problemi e Supporto",
-        "description": "Aiuto con problemi comuni e opzioni di supporto"
+    "assistance": {
+      "title": "Assistenza e Supporto",
+      "description": "Scopri le opzioni di supporto disponibili per i clienti di Transfer Manager Consulting",
+      "content": {
+        "paragraph1": "In qualità di cliente della transfer manager consulting hai accesso a un'assistenza giornaliera in chat con Simone sul gruppo Telegram dedicato a te. Puoi porre a lui tutte le domande e dubbi sulla tua situazione eprsonale e aziendale",
+        "paragraph2": "Per Videocall deidcate direttamente con Simone (Da pattuire con lui in anticipo), puoi prenotarle a questo link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/tm-affitto",
+        "paragraph3": "Inoltre, hai accesso a tutti gli aggiornamenti e le iniziative periodiche della \"Transfer manager Consulting\" direttamente sul Canale telegram.",
+        "link2": "https://t.me/+INexjvzJ_Yw3ZGI0"
       }
     },
-    "questions": {
-      "general": {
-        "q1": {
-          "question": "Che cos'è [Nome della tua azienda]?",
-          "answer": "[Nome della tua azienda] è [breve descrizione della tua azienda]. Forniamo [servizi/prodotti] per aiutare i nostri clienti [proposta di valore]."
-        },
-        "q2": {
-          "question": "Come posso contattare l'assistenza clienti?",
-          "answer": "Puoi contattare il nostro team di assistenza clienti via email all'indirizzo support@example.com o telefonicamente al numero (123) 456-7890. I nostri orari di assistenza sono dal lunedì al venerdì, dalle 9:00 alle 17:00 CET."
-        },
-        "q3": {
-          "question": "Dove si trova la vostra azienda?",
-          "answer": "La nostra sede centrale si trova a [Città, Stato/Paese]. Abbiamo anche uffici in [elencare altre sedi se applicabile]."
-        }
-      },
-      "account": {
-        "q1": {
-          "question": "Come creo un account?",
-          "answer": "Per creare un account, fai clic sul pulsante \"Registrati\" nell'angolo in alto a destra del nostro sito web. Inserisci i tuoi dati, accetta i nostri termini di servizio e fai clic su \"Crea account\". Riceverai un'email di conferma per verificare il tuo account."
-        },
-        "q2": {
-          "question": "Quali metodi di pagamento accettate?",
-          "answer": "Accettiamo tutte le principali carte di credito (Visa, MasterCard, American Express, Discover), PayPal e bonifici bancari. Per i clienti aziendali, offriamo anche opzioni di fatturazione."
-        },
-        "q3": {
-          "question": "Come posso annullare il mio abbonamento?",
-          "answer": "Puoi annullare il tuo abbonamento in qualsiasi momento andando nelle Impostazioni account e selezionando \"Abbonamento\". Fai clic su \"Annulla abbonamento\" e segui le istruzioni. Il tuo accesso continuerà fino alla fine del periodo di fatturazione corrente."
-        }
-      },
-      "features": {
-        "q1": {
-          "question": "Quali sono le caratteristiche principali della vostra piattaforma?",
-          "answer": "La nostra piattaforma offre [elencare le caratteristiche principali], progettate per aiutarti [benefici]. Ogni funzionalità è costruita tenendo presente [punti di vendita unici]."
-        },
-        "q2": {
-          "question": "Offrite accesso API?",
-          "answer": "Sì, forniamo un accesso API completo per tutti i piani a pagamento. La nostra API RESTful ti consente di integrare i nostri servizi con i tuoi sistemi esistenti. La documentazione dettagliata è disponibile nel nostro Hub per sviluppatori."
-        },
-        "q3": {
-          "question": "È disponibile un'app mobile?",
-          "answer": "Sì, offriamo app mobili sia per dispositivi iOS che Android. Puoi scaricarle dall'Apple App Store o dal Google Play Store. Le nostre app mobili forniscono la maggior parte delle funzionalità disponibili sulla piattaforma web."
-        }
-      },
-      "support": {
-        "q1": {
-          "question": "Ho dimenticato la password. Come posso reimpostarla?",
-          "answer": "Fai clic sul link \"Password dimenticata\" nella pagina di accesso. Inserisci l'indirizzo email associato al tuo account e ti invieremo un link per reimpostare la password. Segui le istruzioni nell'email per creare una nuova password."
-        },
-        "q2": {
-          "question": "Il sistema è lento. Cosa posso fare?",
-          "answer": "Se riscontri prestazioni lente, prova a cancellare la cache e i cookie del browser. Assicurati di utilizzare un browser supportato (ultime versioni di Chrome, Firefox, Safari o Edge). Se il problema persiste, contatta il nostro team di supporto."
-        },
-        "q3": {
-          "question": "Offrite formazione o onboarding?",
-          "answer": "Sì, offriamo un onboarding completo per tutti i nuovi clienti. Questo include l'accesso alla nostra knowledge base, tutorial video e documentazione. I clienti aziendali ricevono anche sessioni di formazione personalizzate con il nostro team di successo clienti."
+    "training": {
+      "title": "Materiali di Formazione",
+      "description": "Esplora le risorse di formazione complete disponibili per i clienti",
+      "content": {
+        "paragraph1": "In qualità di cliente della Transfer Manager Consulting puoi accedere a tutti i materiali formativi dal seguente link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/clientitma",
+        "paragraph2": "Qui sono contenute ore di formazione tra le quali:",
+        "accordion": {
+          "item1": {
+            "title": "LA BIBBIA DEL TRASFERIMENTO ALL'ESTERO",
+            "content": "Un videocorso esclusivo di oltre 11 ore che ho registrato nei mesi precedenti, in cui ho raccolto e organizzato in modo chiaro e sequenziale tutte le informazioni necessarie da sapere per la vostra residenza e attività all'estero."
+          },
+          "item2": {
+            "title": "SCUDO PATRIMONIALE",
+            "content": "Si tratta di un webinar esclusivo fatto nei mesi scorsi dove abbiamo affrontato in dettaglio le migliori strategie per proteggere e blindare il vostro patrimonio, indipendentemente dalla vostra situazione finanziaria o dalle entrate che generate."
+          },
+          "item3": {
+            "title": "GESTIONE LLC FACILE",
+            "content": "Il workshop più completo sulla gestione della tua LLC."
+          }
         }
       }
     },
-    "contact": {
-      "title": "Hai ancora domande?",
-      "description": "Se non hai trovato la risposta che stavi cercando, contatta il nostro team di supporto.",
-      "button": "Contatta il Supporto"
+    "experience": {
+      "title": "Transfer Experience",
+      "description": "Scopri opportunità esclusive di networking e apprendimento",
+      "content": {
+        "paragraph1": "In qualità di cliente della Transfer manager Consulting hai accesso esclusivo alle MasterMind dal vivo, organizzata in diverse località europee e riservati solo ai clienti della Transfer Manager Consulting. Questi eventi sono a numero chiuso, progettati per creare occasioni di networking strategico tra imprenditori, con la partecipazione di ospiti speciali.",
+        "paragraph2": "Durante le MasterMind, non solo avrai l'opportunità di scambiare idee e costruire collaborazioni strategiche, ma potrai anche interagire con professionisti di spicco del settore. È un'occasione unica per espandere la tua rete e apprendere dalle esperienze di esperti e colleghi.",
+        "accordion": {
+          "item1": {
+            "title": "Cosa succede alle MasterMind?",
+            "content1": "Durante le MasterMind, non solo avrai l'opportunità di scambiare idee e costruire collaborazioni strategiche, ma potrai anche interagire con professionisti di spicco del settore. È un'occasione unica per espandere la tua rete e apprendere dalle esperienze di esperti e colleghi.",
+            "content2": "Inoltre, c'è la possibilità di candidarsi per uno speech durante l'evento, dove potrai parlare del tuo progetto e della tua attività. Questo ti darà visibilità e ti permetterà di far conoscere la tua idea o il tuo business a un pubblico di imprenditori in target. (E' inclusa tutta l'esperienza, con formazioni, pranzi, cene. Escluso Hotel e viaggio)"
+          }
+        },
+        "contact_info": {
+          "title": "Per maggiori informazioni contattaci su whatsapp a:",
+          "text": "Contattaci via WhatsApp al:",
+          "phone": "+393497013557"
+        }
+      }
+    },
+    "technical": {
+      "title": "Risoluzione Problemi Tecnici",
+      "description": "Ottieni aiuto con problemi tecnici e gestione dell'account",
+      "accordion": {
+        "item1": {
+          "title": "Come posso contattare l'assistenza clienti se ho problemi tecnici?",
+          "content": "Puoi contattare il nostro team di assistenza clienti su whatsapp al numero +393497013557"
+        },
+        "item2": {
+          "title": "Ho dimenticato la password. Come posso reimpostarla?",
+          "content": "Fai clic sul link \"Password dimenticata\" nella pagina di accesso. Inserisci l'indirizzo email associato al tuo account e ti invieremo un link per reimpostare la password. Segui le istruzioni nell'email per creare una nuova password."
+        },
+        "item3": {
+          "title": "Il sistema è lento. Cosa posso fare?",
+          "content": "Se riscontri prestazioni lente, prova a cancellare la cache e i cookie del browser. Assicurati di utilizzare un browser supportato (ultime versioni di Chrome, Firefox, Safari o Edge). Se il problema persiste, contatta il nostro team di supporto."
+        }
+      }
+    },
+    "additional_help": {
+      "title": "Hai bisogno di ulteriore aiuto?",
+      "description": "Se non riesci a trovare la risposta alla tua domanda, contatta il nostro team di supporto",
+      "telegram_button": "Unisciti al Canale Telegram",
+      "whatsapp_button": "Supporto WhatsApp"
     }
   }
 }

@@ -66,19 +66,27 @@ const useCreateExpense = (company_id: string) => {
   const createExpense = async (data: z.infer<typeof createExpenseSchema>) => {
     let fileUrl = null;
 
-    // Handle file upload first using client-side Supabase
     if (data.file) {
-      const { data: fileData, error: uploadError } = await supabase.storage
-        .from("documents")
-        .upload(
-          `${company_id}/expenses/${Date.now()}-${data.file.name}`,
-          data.file
-        );
+      // Create a FormData object for the file upload
+      const formData = new FormData();
+      formData.append("file", data.file);
+      formData.append("company_id", company_id);
+      formData.append("folder", "expenses");
 
-      if (uploadError) {
-        throw new Error("File upload failed: " + uploadError.message);
+      // Upload the file using a dedicated file upload endpoint
+      const uploadResponse = await fetch("/api/upload-file", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!uploadResponse.ok) {
+        const errorData = await uploadResponse.json();
+        throw new Error(errorData.message || "File upload failed");
       }
-      fileUrl = fileData.path;
+
+      const uploadResult = await uploadResponse.json();
+      fileUrl = uploadResult.path;
+      console.log("File uploaded successfully:", fileUrl);
     }
 
     const response = await fetch("/api/expenses", {

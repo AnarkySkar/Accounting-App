@@ -14,6 +14,8 @@ type Revenue = Tables<"revenue">;
 
 type Dividend = Tables<"dividends">;
 
+type Assets = Tables<"assets">;
+
 type CreateInvoiceBody = {
   title: string;
   amount: number;
@@ -70,6 +72,9 @@ export type DashboardAnnualFinancials = {
   total_business_expenses: number;
   total_personal_expenses: number;
   total_dividends: number;
+  total_physical_assets: number;
+  total_digital_assets: number;
+  total_liquid_assets: number;
 };
 
 type SignInFormData = {
@@ -91,6 +96,7 @@ export type {
   Expenses,
   Dividend,
   Revenue,
+  Assets,
   GenInvoices,
   DashboardInvoiceData,
   BarChartData,

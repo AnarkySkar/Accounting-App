@@ -9,6 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      assets: {
+        Row: {
+          title: string | null;
+          assets_date: string | null;
+          company_id: string | null;
+          created_at: string;
+          digital_assets: number | null;
+          file_url: string | null;
+          id: string;
+          liquid_assets: number | null;
+          physical_assets: number | null;
+        };
+        Insert: {
+          title: string | null;
+          assets_date?: string | null;
+          company_id?: string | null;
+          created_at?: string;
+          digital_assets?: number | null;
+          file_url?: string | null;
+          id?: string;
+          liquid_assets?: number | null;
+          physical_assets?: number | null;
+        };
+        Update: {
+          title: string | null;
+          assets_date?: string | null;
+          company_id?: string | null;
+          created_at?: string;
+          digital_assets?: number | null;
+          file_url?: string | null;
+          id?: string;
+          liquid_assets?: number | null;
+          physical_assets?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "assets_company_id_fkey";
+            columns: ["company_id"];
+            isOneToOne: false;
+            referencedRelation: "companies";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       companies: {
         Row: {
           address: string | null;
@@ -307,6 +351,13 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      get_annual_financials: {
+        Args: {
+          company: string;
+          year: number;
+        };
+        Returns: Json;
+      };
       get_dashboard_data:
         | {
             Args: {
@@ -325,10 +376,28 @@ export type Database = {
             };
             Returns: Json;
           };
-      get_dashboard_data_expenses1: {
+      get_dashboard_data_dividends: {
+        Args: {
+          company: string;
+          filter_type: string;
+          start_date?: string;
+          end_date?: string;
+        };
+        Returns: Json;
+      };
+      get_dashboard_data_expenses: {
         Args: {
           filter_type: string;
           company: string;
+          start_date?: string;
+          end_date?: string;
+        };
+        Returns: Json;
+      };
+      get_dashboard_data_expenses1: {
+        Args: {
+          company: string;
+          filter_type: string;
           start_date?: string;
           end_date?: string;
         };
@@ -336,26 +405,10 @@ export type Database = {
       };
       get_dashboard_data_revenue: {
         Args: {
-          filter_type: string;
           company: string;
+          filter_type: string;
           start_date?: string;
           end_date?: string;
-        };
-        Returns: Json;
-      };
-      get_dashboard_data_dividends: {
-        Args: {
-          filter_type: string;
-          company: string;
-          start_date?: string;
-          end_date?: string;
-        };
-        Returns: Json;
-      };
-      get_annual_financials: {
-        Args: {
-          company: string;
-          year: number;
         };
         Returns: Json;
       };

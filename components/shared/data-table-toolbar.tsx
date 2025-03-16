@@ -11,7 +11,7 @@ import { DataTableFacetedFilter } from "../invoices/data-table-faceted-filter";
 import { useTranslation } from "react-i18next";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
-  type: "expenses" | "invoices" | "dividends" | "revenue";
+  type: "expenses" | "invoices" | "dividends" | "revenue" | "assets";
 }
 
 export function DataTableToolbar<TData>({
@@ -31,7 +31,9 @@ export function DataTableToolbar<TData>({
                 ? t("data-table-toolbar.filter.invoices")
                 : type === "revenue"
                   ? t("data-table-toolbar.filter.revenue")
-                  : t("data-table-toolbar.filter.dividends")
+                  : type === "assets"
+                    ? t("data-table-toolbar.filter.assets")
+                    : t("data-table-toolbar.filter.dividends")
           }
           value={
             type === "expenses"
@@ -42,7 +44,13 @@ export function DataTableToolbar<TData>({
                   ? (table
                       .getColumn("business_income")
                       ?.getFilterValue() as string)
-                  : (table.getColumn("member_name")?.getFilterValue() as string) // For Dividends
+                  : type === "assets"
+                    ? (table
+                        .getColumn("digital_assets")
+                        ?.getFilterValue() as string)
+                    : (table
+                        .getColumn("member_name")
+                        ?.getFilterValue() as string) // For Dividends
           }
           onChange={
             (event) =>
@@ -56,9 +64,13 @@ export function DataTableToolbar<TData>({
                     ? table
                         .getColumn("business_income")
                         ?.setFilterValue(event.target.value)
-                    : table
-                        .getColumn("member_name")
-                        ?.setFilterValue(event.target.value) // For Dividends
+                    : type === "assets"
+                      ? table
+                          .getColumn("digital_assets")
+                          ?.setFilterValue(event.target.value)
+                      : table
+                          .getColumn("member_name")
+                          ?.setFilterValue(event.target.value) // For Dividends
           }
         />
         {type === "invoices" && table.getColumn("status") && (

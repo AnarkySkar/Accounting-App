@@ -31,7 +31,7 @@ import { DataTableToolbar } from "./data-table-toolbar";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  type: "expenses" | "invoices" | "dividends" | "revenue";
+  type: "expenses" | "invoices" | "dividends" | "revenue" | "assets";
 }
 
 export function DataTable<TData, TValue>({

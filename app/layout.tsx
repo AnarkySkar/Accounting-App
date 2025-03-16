@@ -13,6 +13,8 @@ import { Toaster } from "@/components/ui/toaster";
 import I18nProvider from "@/components/I18nProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { CurrencyProvider } from "@/context/CurrencyContext";
+import { unstable_noStore as noStore } from "next/cache";
+
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
@@ -33,6 +35,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  noStore();
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">

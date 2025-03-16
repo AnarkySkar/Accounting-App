@@ -1,7 +1,5 @@
-// @ts-nocheck
-
-import { createDividendSchema } from "@/lib/schema";
-import { Dividends } from "@/types";
+import { createDividendsSchema } from "@/lib/schema";
+import { Dividend } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -60,22 +58,33 @@ import { useAuth } from "@/context/AuthContext";
 const useCreateDividend = (company_id: string) => {
   const queryClient = useQueryClient();
   const supabase = createClient();
-  const createDividend = async (data: z.infer<typeof createDividendSchema>) => {
+  const createDividend = async (
+    data: z.infer<typeof createDividendsSchema>
+  ) => {
     let fileUrl = null;
 
     // Handle file upload first using client-side Supabase
     if (data.file) {
-      const { data: fileData, error: uploadError } = await supabase.storage
-        .from("documents")
-        .upload(
-          `${company_id}/dividends/${Date.now()}-${data.file.name}`,
-          data.file
-        );
+      // Create a FormData object for the file upload
+      const formData = new FormData();
+      formData.append("file", data.file);
+      formData.append("company_id", company_id);
+      formData.append("folder", "dividends");
 
-      if (uploadError) {
-        throw new Error("File upload failed: " + uploadError.message);
+      // Upload the file using a dedicated file upload endpoint
+      const uploadResponse = await fetch("/api/upload-file", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!uploadResponse.ok) {
+        const errorData = await uploadResponse.json();
+        throw new Error(errorData.message || "File upload failed");
       }
-      fileUrl = fileData.path;
+
+      const uploadResult = await uploadResponse.json();
+      fileUrl = uploadResult.path;
+      console.log("File uploaded successfully:", fileUrl);
     }
 
     const response = await fetch("/api/dividends", {
@@ -100,7 +109,7 @@ const useCreateDividend = (company_id: string) => {
     return response.json();
   };
 
-  return useMutation<Dividends, Error, z.infer<typeof createDividendSchema>>({
+  return useMutation<Dividend, Error, z.infer<typeof createDividendsSchema>>({
     mutationFn: createDividend,
     mutationKey: ["create-dividend", company_id],
     onSuccess: () => {
@@ -137,7 +146,7 @@ const useGetDividends = () => {
     return response.json();
   };
 
-  return useQuery<Dividends[], PostgrestError>({
+  return useQuery<Dividend[], PostgrestError>({
     queryFn: getDividends,
     queryKey: ["getDividends", user?.id],
     enabled: !!user?.id,
@@ -149,7 +158,7 @@ const useEditDividend = (id: string) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const editDividend = async (data: z.infer<typeof createDividendSchema>) => {
+  const editDividend = async (data: z.infer<typeof createDividendsSchema>) => {
     let fileUrl = null;
 
     if (data.file) {
@@ -187,9 +196,9 @@ const useEditDividend = (id: string) => {
   };
 
   return useMutation<
-    Dividends,
+    Dividend,
     PostgrestError,
-    z.infer<typeof createDividendSchema>
+    z.infer<typeof createDividendsSchema>
   >({
     mutationFn: (data) => editDividend(data),
     mutationKey: ["edit-dividend", id],
@@ -216,7 +225,7 @@ const useGetDividend = (id: string) => {
     return data;
   };
 
-  return useQuery<Dividends, PostgrestError>({
+  return useQuery<Dividend, PostgrestError>({
     queryFn: getDividend,
     queryKey: ["getDividend", id],
     enabled: !!id,

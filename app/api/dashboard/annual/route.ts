@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const { data, error } = await supabase.rpc("get_annual_financials", {
+    const { data, error } = await supabase.rpc("get_annual_financial_summary", {
       company: userId,
       year: parseInt(year),
     });

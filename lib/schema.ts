@@ -49,6 +49,16 @@ export const createDividendsSchema = z.object({
   file: z.any().optional(),
 });
 
+export const createAssetsSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  digital_assets: z.string().min(1, "Digital Assets is required"),
+  liquid_assets: z.string().min(1, "Liquid Assets is required"),
+  physical_assets: z.string().min(1, "Physical Assets is required"),
+  date: z.date({
+    required_error: "Date is required",
+  }),
+  file: z.any().optional(),
+});
 export const createLLCSchema = z.object({
   llc_name: z.string().min(1, "LLC Name is required"),
   business_description: z.string().min(1, "Business Description is required"),

@@ -20,36 +20,48 @@ const AnnualFinancialCard: React.FC<AnnualFinancialCardProps> = ({
   const { t } = useTranslation();
   const { formatCurrency } = useCurrency();
 
-  const financialMetrics = useMemo(
-    () => [
-      {
-        title: t("dashboard.annualCard.business_income"),
-        value: financialData.total_business_income,
-        formattedValue: formatCurrency(financialData.total_business_income),
-      },
-      {
-        title: t("dashboard.annualCard.personal_income"),
-        value: financialData.total_personal_income,
-        formattedValue: formatCurrency(financialData.total_personal_income),
-      },
-      {
-        title: t("dashboard.annualCard.business_expenses"),
-        value: financialData.total_business_expenses,
-        formattedValue: formatCurrency(financialData.total_business_expenses),
-      },
-      {
-        title: t("dashboard.annualCard.personal_expenses"),
-        value: financialData.total_personal_expenses,
-        formattedValue: formatCurrency(financialData.total_personal_expenses),
-      },
-      {
-        title: t("dashboard.annualCard.total_income"),
-        value: financialData.total_dividends,
-        formattedValue: formatCurrency(financialData.total_dividends),
-      },
-    ],
-    [financialData, formatCurrency]
-  );
+  const financialMetrics = [
+    {
+      title: t("dashboard.annualCard.business_income"),
+      value: financialData.total_business_income,
+      formattedValue: formatCurrency(financialData.total_business_income),
+    },
+    {
+      title: t("dashboard.annualCard.personal_income"),
+      value: financialData.total_personal_income,
+      formattedValue: formatCurrency(financialData.total_personal_income),
+    },
+    {
+      title: t("dashboard.annualCard.business_expenses"),
+      value: financialData.total_business_expenses,
+      formattedValue: formatCurrency(financialData.total_business_expenses),
+    },
+    {
+      title: t("dashboard.annualCard.personal_expenses"),
+      value: financialData.total_personal_expenses,
+      formattedValue: formatCurrency(financialData.total_personal_expenses),
+    },
+    {
+      title: t("dashboard.annualCard.total_income"),
+      value: financialData.total_dividends,
+      formattedValue: formatCurrency(financialData.total_dividends),
+    },
+    {
+      title: t("dashboard.annualCard.total_physical_assets"),
+      value: financialData.total_physical_assets,
+      formattedValue: formatCurrency(financialData.total_physical_assets),
+    },
+    {
+      title: t("dashboard.annualCard.total_digital_assets"),
+      value: financialData.total_digital_assets,
+      formattedValue: formatCurrency(financialData.total_digital_assets),
+    },
+    {
+      title: t("dashboard.annualCard.total_liquid_assets"),
+      value: financialData.total_liquid_assets,
+      formattedValue: formatCurrency(financialData.total_liquid_assets),
+    },
+  ];
 
   const copyToClipboard = () => {
     const text = financialMetrics

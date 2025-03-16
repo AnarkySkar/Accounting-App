@@ -1,134 +1,77 @@
 "use client";
 
-// context/AuthContext.tsx
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import { Session, User } from "@supabase/supabase-js";
+import { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { Company } from "@/types";
+import { Session, User } from "@supabase/supabase-js";
 
-interface AuthContextType {
+type AuthContextType = {
   user: User | null;
   session: Session | null;
-  company: Company | null;
   isLoading: boolean;
-  isAuthenticated: boolean;
-}
+  error: Error | null;
+};
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  session: null,
+  isLoading: true,
+  error: null,
+});
 
-// Provider Component
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const supabase = createClient();
-
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [company, setCompany] = useState<Company | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const supabase = createClient();
 
   useEffect(() => {
-    // Check session on initial load
-    const checkUserSession = async () => {
+    const getSession = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         const {
           data: { session },
           error,
         } = await supabase.auth.getSession();
 
         if (error) {
-          console.error("Error getting session:", error);
-          return;
+          throw error;
         }
 
-        if (session?.user) {
-          setUser(session.user);
-          setSession(session);
-          setIsAuthenticated(true);
-          await fetchCompanyData(session.user.id);
-        } else {
-          setUser(null);
-          setCompany(null);
-          setIsAuthenticated(false);
-        }
-      } catch (err) {
-        console.error("Unexpected error checking session:", err);
+        setSession(session);
+        setUser(session?.user || null);
+
+        // Set up auth state listener
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+          async (event, session) => {
+            console.log("Auth state changed:", event);
+            setSession(session);
+            setUser(session?.user || null);
+          }
+        );
+
+        return () => {
+          authListener?.subscription.unsubscribe();
+        };
+      } catch (error) {
+        console.error("Error getting session:", error);
+        setError(error as Error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkUserSession();
+    getSession();
+  }, [supabase]);
 
-    // Listen for auth state changes
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log("Auth state changed:", event, session?.user?.id);
-
-        if (session?.user) {
-          setUser(session.user);
-          setSession(session);
-          setIsAuthenticated(true);
-          await fetchCompanyData(session.user.id);
-        } else {
-          setUser(null);
-          setCompany(null);
-          setSession(null);
-          setIsAuthenticated(false);
-        }
-      }
-    );
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, []);
-
-  const fetchCompanyData = async (userId: string) => {
-    if (!userId) return;
-
-    try {
-      const { data, error } = await supabase
-        .from("companies")
-        .select("*")
-        .eq("id", userId)
-        .single();
-
-      if (error) {
-        console.error("Error fetching company data:", error);
-        setCompany(null);
-        return;
-      }
-
-      setCompany(data);
-    } catch (err) {
-      console.error("Unexpected error fetching company data:", err);
-      setCompany(null);
-    }
-  };
-
-  const value: AuthContextType = {
+  const value = {
     user,
     session,
-    company,
     isLoading,
-    isAuthenticated,
+    error,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Hook for accessing AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);

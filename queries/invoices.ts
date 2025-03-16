@@ -71,50 +71,64 @@ const useCreateInvoice = (company_id: string) => {
   const createInvoice = async (data: z.infer<typeof createInvoiceSchema>) => {
     let fileUrl = null;
 
-    // Handle file upload first using client-side Supabase
-    if (data.file) {
-      const { data: fileData, error: uploadError } = await supabase.storage
-        .from("documents")
-        .upload(
-          `${company_id}/invoices/${Date.now()}-${data.file.name}`,
-          data.file
-        );
+    try {
+      // Handle file upload first
+      if (data.file) {
+        // Create a FormData object for the file upload
+        const formData = new FormData();
+        formData.append("file", data.file);
+        formData.append("company_id", company_id);
+        formData.append("folder", "invoices");
 
-      if (uploadError) {
-        throw new Error("File upload failed: " + uploadError.message);
+        // Upload the file using a dedicated file upload endpoint
+        const uploadResponse = await fetch("/api/upload-file", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          const errorData = await uploadResponse.json();
+          throw new Error(errorData.message || "File upload failed");
+        }
+
+        const uploadResult = await uploadResponse.json();
+        fileUrl = uploadResult.path;
+        console.log("File uploaded successfully:", fileUrl);
       }
-      fileUrl = fileData.path;
+
+      // Then create the invoice record
+      const response = await fetch("/api/invoice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          company_id,
+          date: data.date?.toISOString() || new Date().toISOString(),
+          amount: data.amount,
+          status: data.status,
+          title: data.title,
+          file_url: fileUrl,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create invoice");
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error in createInvoice:", error);
+      throw error;
     }
-
-    // Then send the rest of the data including the file URL
-    const response = await fetch("/api/invoice", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        company_id,
-        date: data.date?.toISOString() || "",
-        amount: data.amount,
-        status: data.status,
-        title: data.title,
-        file_url: fileUrl,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to create invoice");
-    }
-
-    return response.json();
   };
 
   return useMutation<Invoice, Error, z.infer<typeof createInvoiceSchema>>({
     mutationFn: createInvoice,
-    mutationKey: ["create-invoice", company_id],
     onSuccess: () => {
-      queryClient.refetchQueries({
+      queryClient.invalidateQueries({
         queryKey: ["getAllInvoices", company_id],
       });
     },

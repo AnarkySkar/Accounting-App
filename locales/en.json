@@ -14,7 +14,10 @@
       "total_income": "Total Income",
       "total_expenses": "Total Expenses",
       "copy_annual_data": "Copy annual data",
-      "annual_data_copied": "Annual data copied"
+      "annual_data_copied": "Annual data copied",
+      "total_physical_assets": "Total Physical Assets",
+      "total_digital_assets": "Total Digital Assets",
+      "total_liquid_assets": "Total Liquid Assets"
     },
 
     "tabs": {
@@ -87,7 +90,8 @@
       "expenses": "Filter expenses...",
       "invoices": "Filter invoices...",
       "revenue": "Filter revenue...",
-      "dividends": "Filter dividends..."
+      "dividends": "Filter dividends...",
+      "assets": "Filter assets..."
     }
   },
   "expenses": {
@@ -105,7 +109,7 @@
     "subtitle": "You can view your company details below and update them if needed"
   },
   "assets": {
-    "description": "Enter here the total value of the LLC’s assets as of December 31st. This information is required for tax filing."
+    "description": "Enter here the total value of the LLC's assets as of December 31st. This information is required for tax filing."
   },
   "documents": {
     "description": "Upload here the documents related to the LLC's activity. These files are required for accounting management and tax filing."
@@ -124,93 +128,90 @@
   },
   "faq": {
     "title": "Frequently Asked Questions",
-    "description": "Find answers to common questions about our products, services, and how to get the most out of our platform.",
-    "categories": {
-      "general": "General",
-      "account": "Account",
-      "features": "Features",
-      "support": "Support"
+    "description": "Find answers to common questions about Transfer Manager Consulting services",
+    "tabs": {
+      "assistance": "Assistance",
+      "training": "Training",
+      "experience": "Experience",
+      "technical": "Technical"
     },
-    "sections": {
-      "general": {
-        "title": "General Information",
-        "description": "Basic information about our company and services"
-      },
-      "account": {
-        "title": "Account & Billing",
-        "description": "Information about your account and billing options"
-      },
-      "features": {
-        "title": "Product Features",
-        "description": "Learn more about our product features and capabilities"
-      },
-      "support": {
-        "title": "Troubleshooting & Support",
-        "description": "Help with common issues and support options"
+    "assistance": {
+      "title": "Assistance and Support",
+      "description": "Learn about the support options available to Transfer Manager Consulting clients",
+      "content": {
+        "paragraph1": "As a client of Transfer Manager Consulting, you have daily chat support with Simone in your dedicated Telegram group. You can ask him any questions or concerns regarding your personal and business situation.",
+        "paragraph2": "For dedicated video calls with Simone (to be arranged with him in advance), you can book them at this link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/tm-affitto",
+        "paragraph3": "You also have access to all updates and periodic initiatives from Transfer Manager Consulting directly on the Telegram channel. Access it here:",
+        "link2": "https://t.me/+INexjvzJ_Yw3ZGI0"
       }
     },
-    "questions": {
-      "general": {
-        "q1": {
-          "question": "What is [Your Company Name]?",
-          "answer": "[Your Company Name] is a [brief description of your company]. We provide [services/products] to help our customers [value proposition]."
-        },
-        "q2": {
-          "question": "How do I contact customer support?",
-          "answer": "You can reach our customer support team via email at support@example.com or by phone at (123) 456-7890. Our support hours are Monday through Friday, 9 AM to 5 PM EST."
-        },
-        "q3": {
-          "question": "Where is your company located?",
-          "answer": "Our headquarters is located in [City, State/Country]. We also have offices in [list other locations if applicable]."
-        }
-      },
-      "account": {
-        "q1": {
-          "question": "How do I create an account?",
-          "answer": "To create an account, click on the \"Sign Up\" button in the top right corner of our website. Fill in your details, agree to our terms of service, and click \"Create Account\". You'll receive a confirmation email to verify your account."
-        },
-        "q2": {
-          "question": "What payment methods do you accept?",
-          "answer": "We accept all major credit cards (Visa, MasterCard, American Express, Discover), PayPal, and bank transfers. For enterprise customers, we also offer invoicing options."
-        },
-        "q3": {
-          "question": "How do I cancel my subscription?",
-          "answer": "You can cancel your subscription at any time by going to your Account Settings and selecting \"Subscription\". Click on \"Cancel Subscription\" and follow the prompts. Your access will continue until the end of your current billing period."
-        }
-      },
-      "features": {
-        "q1": {
-          "question": "What are the key features of your platform?",
-          "answer": "Our platform offers [list key features], designed to help you [benefits]. Each feature is built with [unique selling points] in mind."
-        },
-        "q2": {
-          "question": "Do you offer API access?",
-          "answer": "Yes, we provide comprehensive API access for all paid plans. Our RESTful API allows you to integrate our services with your existing systems. Detailed documentation is available in our Developer Hub."
-        },
-        "q3": {
-          "question": "Is there a mobile app available?",
-          "answer": "Yes, we offer mobile apps for both iOS and Android devices. You can download them from the Apple App Store or Google Play Store. Our mobile apps provide most of the functionality available on the web platform."
-        }
-      },
-      "support": {
-        "q1": {
-          "question": "I forgot my password. How do I reset it?",
-          "answer": "Click on the \"Forgot Password\" link on the login page. Enter the email address associated with your account, and we'll send you a password reset link. Follow the instructions in the email to create a new password."
-        },
-        "q2": {
-          "question": "The system is running slowly. What can I do?",
-          "answer": "If you're experiencing slow performance, try clearing your browser cache and cookies. Make sure you're using a supported browser (latest versions of Chrome, Firefox, Safari, or Edge). If the issue persists, please contact our support team."
-        },
-        "q3": {
-          "question": "Do you offer training or onboarding?",
-          "answer": "Yes, we offer comprehensive onboarding for all new customers. This includes access to our knowledge base, video tutorials, and documentation. Enterprise customers also receive personalized training sessions with our customer success team."
+    "training": {
+      "title": "Training Materials",
+      "description": "Explore the comprehensive training resources available to clients",
+      "content": {
+        "paragraph1": "As a client of Transfer Manager Consulting, you can access all training materials at the following link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/clientitma",
+        "paragraph2": "This includes hours of training, such as:",
+        "accordion": {
+          "item1": {
+            "title": "THE BIBLE OF MOVING ABROAD",
+            "content": "An exclusive video course of over 11 hours, recorded in recent months, where I have gathered and organized all the essential information for your residency and business abroad in a clear and sequential manner."
+          },
+          "item2": {
+            "title": "ASSET PROTECTION SHIELD",
+            "content": "An exclusive webinar from past months, where we thoroughly discussed the best strategies to protect and secure your wealth, regardless of your financial situation or income."
+          },
+          "item3": {
+            "title": "EASY LLC MANAGEMENT",
+            "content": "The most comprehensive workshop on managing your LLC."
+          }
         }
       }
     },
-    "contact": {
-      "title": "Still have questions?",
-      "description": "If you couldn't find the answer you were looking for, please contact our support team.",
-      "button": "Contact Support"
+    "experience": {
+      "title": "Transfer Experience",
+      "description": "Discover exclusive networking and learning opportunities",
+      "content": {
+        "paragraph1": "As a client of Transfer Manager Consulting, you have exclusive access to live MasterMind events, organized in various European locations and reserved only for Transfer Manager Consulting clients.",
+        "paragraph2": "These events are limited in number, designed to create strategic networking opportunities among entrepreneurs, with the participation of special guests.",
+        "accordion": {
+          "item1": {
+            "title": "What happens at MasterMind events?",
+            "content1": "During the MasterMind events, you will not only have the opportunity to exchange ideas and build strategic collaborations but also interact with top professionals in the industry. It's a unique chance to expand your network and learn from experts and fellow entrepreneurs.",
+            "content2": "Additionally, you can apply for a speaking slot during the event, where you can present your project and business. This will give you visibility and allow you to showcase your idea or business to a targeted audience of entrepreneurs. (The experience includes all training sessions, lunches, and dinners. Hotel and travel expenses are excluded.)"
+          }
+        },
+        "contact_info": {
+          "title": "For more information about Transfer Experience events:",
+          "text": "Contact us via WhatsApp at:",
+          "phone": "+393497013557"
+        }
+      }
+    },
+    "technical": {
+      "title": "Technical Support and Issue Resolution",
+      "description": "Get help with technical issues and account management",
+      "accordion": {
+        "item1": {
+          "title": "How can I contact customer support if I have technical issues?",
+          "content": "You can reach our customer support team via WhatsApp at +393497013557"
+        },
+        "item2": {
+          "title": "I forgot my password. How can I reset it?",
+          "content": "Click on the \"Forgot Password\" link on the login page. Enter the email address associated with your account, and we will send you a link to reset your password. Follow the instructions in the email to create a new password."
+        },
+        "item3": {
+          "title": "The system is slow. What can I do?",
+          "content": "If you experience slow performance, try clearing your browser cache and cookies. Ensure you are using a supported browser (latest versions of Chrome, Firefox, Safari, or Edge). If the issue persists, contact our support team."
+        }
+      }
+    },
+    "additional_help": {
+      "title": "Need Additional Help?",
+      "description": "If you can't find the answer to your question, please contact our support team",
+      "telegram_button": "Join Telegram Channel",
+      "whatsapp_button": "WhatsApp Support"
     }
   }
 }
