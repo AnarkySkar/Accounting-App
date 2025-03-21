@@ -127,14 +127,19 @@ export default function InvoiceForm() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-12 z-[100]">
-        {/* {!submittedData ? ( */}
+    <div className="w-full">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-4xl mx-auto px-4 py-6 md:p-12 z-[100]"
+      >
         <Card>
-          <CardContent className="p-6">
-            <div className="flex justify-between mb-8">
+          <CardContent className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8">
               <div className="space-y-2">
-                <div className="w-32 h-32 bg-gray-100 flex items-center justify-center rounded">
+                <div
+                  className="w-24 h-24 md:w-32 md:h-32 bg-gray-100 flex items-center justify-center rounded cursor-pointer"
+                  onClick={() => inputRef?.current?.click()}
+                >
                   {logo ? (
                     <img
                       src={logo}
@@ -142,12 +147,9 @@ export default function InvoiceForm() {
                       className="w-full h-full object-cover rounded"
                     />
                   ) : (
-                    <div
-                      className="flex items-center gap-1 cursor-pointer text-gray-400"
-                      onClick={() => inputRef?.current?.click()}
-                    >
-                      <span className="">Logo</span>
-                      <Plus className="h-6 w-6" />
+                    <div className="flex items-center gap-1 text-gray-400">
+                      <span>Logo</span>
+                      <Plus className="h-5 w-5" />
                     </div>
                   )}
                 </div>
@@ -155,32 +157,33 @@ export default function InvoiceForm() {
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="mt-2 hidden"
+                  className="hidden"
                   ref={inputRef}
                 />
                 <div>
                   <p className="font-semibold">{user?.user_metadata?.name}</p>
-                  <p>{user?.user_metadata?.address}</p>
-                  {/* <p>SHERIDAN, 82801 (WY)</p>
-                <p>EIN: 384249428</p> */}
+                  <p className="text-sm md:text-base">
+                    {user?.user_metadata?.address}
+                  </p>
                 </div>
               </div>
-              <div className="text-right">
-                <h1 className="text-4xl font-bold text-primary mb-2">
+
+              <div className="text-left md:text-right">
+                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   INVOICE
                 </h1>
                 <Input
                   name="invoiceNumber"
                   defaultValue="3TF1S2-001"
-                  className="text-right"
+                  className="md:text-right"
                 />
-                <div className="mt-4 flex items-center justify-end gap-2 ">
+                <div className="mt-4 flex items-center md:justify-end gap-2">
                   <span>Date:</span>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-[200px] justify-start text-left font-normal "
+                        className="w-full md:w-[200px] justify-start text-left font-normal"
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {date ? format(date, "PPP") : <span>Pick a date</span>}
@@ -208,74 +211,82 @@ export default function InvoiceForm() {
               </div>
             </div>
 
-            <div className="mb-8">
-              <div className="grid grid-cols-12 gap-4 mb-2 font-semibold">
-                <div className="col-span-6">ITEMS</div>
-                <div className="col-span-2">QUANTITY</div>
-                <div className="col-span-2">UNIT PRICE</div>
-                <div className="col-span-2">AMOUNT</div>
-              </div>
-
-              {items.map((item) => (
-                <div key={item.id} className="grid grid-cols-12 gap-4 mb-2">
-                  <div className="col-span-6">
-                    <Input
-                      value={item.description}
-                      onChange={(e) =>
-                        updateItem(item.id, "description", e.target.value)
-                      }
-                      placeholder="Item description"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Input
-                      type="number"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        updateItem(
-                          item.id,
-                          "quantity",
-                          parseInt(e.target.value)
-                        )
-                      }
-                      min="1"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Input
-                      type="number"
-                      value={item.unitPrice}
-                      onChange={(e) =>
-                        updateItem(
-                          item.id,
-                          "unitPrice",
-                          parseFloat(e.target.value)
-                        )
-                      }
-                      min="0"
-                      step="0.01"
-                    />
-                  </div>
-                  <div className="col-span-1">
-                    {formatCurrency(item.amount)}
-                  </div>
-                  <div className="col-span-1">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeItem(item.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+            <div className="mb-8 overflow-x-auto">
+              <div className="min-w-[600px]">
+                <div className="grid grid-cols-12 gap-2 md:gap-4 mb-2 font-semibold text-sm md:text-base">
+                  <div className="col-span-6">ITEMS</div>
+                  <div className="col-span-2">QUANTITY</div>
+                  <div className="col-span-2">UNIT PRICE</div>
+                  <div className="col-span-2">AMOUNT</div>
                 </div>
-              ))}
+
+                {items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-12 gap-2 md:gap-4 mb-2"
+                  >
+                    <div className="col-span-6">
+                      <Input
+                        value={item.description}
+                        onChange={(e) =>
+                          updateItem(item.id, "description", e.target.value)
+                        }
+                        placeholder="Item description"
+                        className="text-sm md:text-base"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <Input
+                        type="number"
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateItem(
+                            item.id,
+                            "quantity",
+                            parseInt(e.target.value)
+                          )
+                        }
+                        min="1"
+                        className="text-sm md:text-base"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <Input
+                        type="number"
+                        value={item.unitPrice}
+                        onChange={(e) =>
+                          updateItem(
+                            item.id,
+                            "unitPrice",
+                            parseFloat(e.target.value)
+                          )
+                        }
+                        min="0"
+                        step="0.01"
+                        className="text-sm md:text-base"
+                      />
+                    </div>
+                    <div className="col-span-1 flex items-center text-sm md:text-base">
+                      {formatCurrency(item.amount)}
+                    </div>
+                    <div className="col-span-1 flex justify-center">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeItem(item.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
 
               <Button
                 type="button"
                 variant="outline"
-                className="mt-2"
+                className="mt-4"
                 onClick={addItem}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -283,7 +294,7 @@ export default function InvoiceForm() {
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <div>
                 <h2 className="text-lg font-semibold mb-2">Notes:</h2>
                 <Textarea name="notes" placeholder="Add any notes here..." />
@@ -312,11 +323,12 @@ export default function InvoiceForm() {
               </div>
             </div>
 
-            <div className="mt-8 flex justify-end gap-4 hide-on-pdf">
+            <div className="mt-8 flex flex-col sm:flex-row justify-end gap-4 hide-on-pdf">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => generatePDF("invoice-form")}
+                className="w-full sm:w-auto"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Download PDF
@@ -333,43 +345,46 @@ export default function InvoiceForm() {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-4xl mx-auto p-12 z-[10]"
+        className="w-full max-w-4xl mx-auto p-12 md:p-12 z-[10]"
         id="invoice-form"
       >
-        <p className="mb-10 text-3xl font-bold">Preview</p>
-        {/* {!submittedData ? ( */}
+        <p className="mb-6 md:mb-10 text-2xl md:text-3xl font-bold">Preview</p>
         <Card>
-          <CardContent className="p-6">
-            <div className="flex justify-between mb-10">
+          <CardContent className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8 md:mb-10">
               <div className="space-y-2">
-                <div className="w-32 h-32 bg-gray-100 flex items-center justify-center rounded">
-                  <img
-                    src={logo ?? ""}
-                    alt="Logo"
-                    className="w-full h-full object-cover rounded"
-                  />
+                <div className="w-24 h-24 md:w-32 md:h-32 bg-gray-100 flex items-center justify-center rounded">
+                  {logo && (
+                    <img
+                      src={logo}
+                      alt="Logo"
+                      className="w-full h-full object-cover rounded"
+                    />
+                  )}
                 </div>
 
                 <div className="mt-2">
                   <p className="font-semibold">{user?.user_metadata?.name}</p>
-                  <p>{user?.user_metadata?.address}</p>
+                  <p className="text-sm md:text-base">
+                    {user?.user_metadata?.address}
+                  </p>
                 </div>
               </div>
-              <div className="text-right">
-                <h1 className="text-4xl font-bold text-primary mb-2">
+              <div className="text-left md:text-right">
+                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   INVOICE
                 </h1>
                 <p>{submittedData?.invoiceNumber}</p>
 
-                <div className="mt-4 flex items-center justify-end gap-2">
-                  <span>Date:{format(date, "PPP")}</span>
+                <div className="mt-4 flex items-center md:justify-end gap-2">
+                  <span>Date: {format(date, "PPP")}</span>
                 </div>
               </div>
             </div>
 
-            <div className="mb-10">
+            <div className="mb-8 md:mb-10">
               <h2 className="text-lg font-semibold mb-2">Bill To:</h2>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {submittedData?.customerName && (
                   <p>{submittedData.customerName}</p>
                 )}
@@ -382,38 +397,43 @@ export default function InvoiceForm() {
               </div>
             </div>
 
-            <div className="mb-8">
-              <div className="grid grid-cols-12 gap-4 mb-2 font-semibold">
-                <div className="col-span-6">ITEMS</div>
-                <div className="col-span-2">QUANTITY</div>
-                <div className="col-span-2">UNIT PRICE</div>
-                <div className="col-span-2">AMOUNT</div>
-              </div>
-
-              {items?.map((item) => (
-                <div key={item.id} className="grid grid-cols-12 gap-4 mb-4">
-                  <div className="col-span-6">
-                    <p className="ml-0.5 font-semibold">{item.description}</p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="ml-0.5 font-semibold">{item.quantity}</p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="ml-0.5 font-semibold">
-                      {formatCurrency(item.unitPrice)}
-                    </p>
-                  </div>
-                  <div className="col-span-1">
-                    {formatCurrency(item.amount)}
-                  </div>
+            <div className="mb-8 overflow-x-auto">
+              <div className="min-w-[600px]">
+                <div className="grid grid-cols-12 gap-2 md:gap-4 mb-2 font-semibold text-sm md:text-base">
+                  <div className="col-span-6">ITEMS</div>
+                  <div className="col-span-2">QUANTITY</div>
+                  <div className="col-span-2">UNIT PRICE</div>
+                  <div className="col-span-2">AMOUNT</div>
                 </div>
-              ))}
+
+                {items?.map((item) => (
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-12 gap-2 md:gap-4 mb-3 md:mb-4 text-sm md:text-base"
+                  >
+                    <div className="col-span-6">
+                      <p className="ml-0.5 font-semibold">{item.description}</p>
+                    </div>
+                    <div className="col-span-2">
+                      <p className="ml-0.5 font-semibold">{item.quantity}</p>
+                    </div>
+                    <div className="col-span-2">
+                      <p className="ml-0.5 font-semibold">
+                        {formatCurrency(item.unitPrice)}
+                      </p>
+                    </div>
+                    <div className="col-span-2">
+                      {formatCurrency(item.amount)}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 mt-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-10 md:mt-20">
               <div>
                 <h2 className="text-lg font-semibold mb-2">Notes:</h2>
-                <p>{submittedData?.notes}</p>
+                <p className="text-sm md:text-base">{submittedData?.notes}</p>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -422,7 +442,7 @@ export default function InvoiceForm() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Tax (%):</span>
-                  <p>{submittedData?.tax}</p>
+                  <p>{tax}%</p>
                 </div>
                 <div className="flex justify-between font-semibold text-lg">
                   <span>Total:</span>
