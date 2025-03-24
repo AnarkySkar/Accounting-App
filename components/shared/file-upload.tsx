@@ -6,36 +6,40 @@ import { Cloud, File, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface FileUploadProps {
-  value?: File;
-  onChange?: (file?: File) => void;
+  value?: File[]; // Cambiato per supportare più file
+  onChange?: (files?: File[]) => void; // Cambiato per supportare più file
   className?: string;
 }
 
 export function FileUpload({ value, onChange, className }: FileUploadProps) {
-  const [file, setFile] = useState<File | undefined>(value);
+  const [files, setFiles] = useState<File[]>(value || []); // Gestisce un array di file
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const selectedFile = acceptedFiles[0];
-      setFile(selectedFile);
-      onChange?.(selectedFile);
+      const updatedFiles = [...files, ...acceptedFiles]; // Aggiungi i nuovi file all'array esistente
+      setFiles(updatedFiles);
+      onChange?.(updatedFiles);
     },
-    [onChange]
+    [files, onChange]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxFiles: 1,
+    maxFiles: 10, // Impostato per caricare fino a 10 file, puoi modificarlo
     accept: {
       "application/pdf": [".pdf"],
       "image/*": [".png", ".jpg", ".jpeg"],
     },
   });
 
-  const removeFile = useCallback(() => {
-    setFile(undefined);
-    onChange?.(undefined);
-  }, [onChange]);
+  const removeFile = useCallback(
+    (fileToRemove: File) => {
+      const updatedFiles = files.filter((file) => file !== fileToRemove);
+      setFiles(updatedFiles);
+      onChange?.(updatedFiles);
+    },
+    [files, onChange]
+  );
 
   return (
     <div className={cn("w-full", className)}>
@@ -48,25 +52,29 @@ export function FileUpload({ value, onChange, className }: FileUploadProps) {
         )}
       >
         <input {...getInputProps()} />
-        {file ? (
-          <div className="flex items-center gap-2">
-            <File className="h-4 w-4" />
-            <span className="text-sm text-muted-foreground">{file.name}</span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                removeFile();
-              }}
-              className="ml-auto hover:opacity-75 transition"
-            >
-              <X className="h-4 w-4" />
-            </button>
+        {files.length > 0 ? (
+          <div className="flex flex-col gap-2">
+            {files.map((file, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <File className="h-4 w-4" />
+                <span className="text-sm text-muted-foreground">{file.name}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(file);
+                  }}
+                  className="ml-auto hover:opacity-75 transition"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="flex flex-col items-center gap-1 text-center">
             <Cloud className="h-6 w-6 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              Drag and drop a file here or click
+              Drag and drop files here or click to select
             </p>
           </div>
         )}
