@@ -337,6 +337,7 @@ const LLCRegistrationForm: React.FC<LLCRegistrationFormProps> = ({
                 <FileUpload
                   value={field.value}
                   onChange={(files) => field.onChange(files)}
+                  multiple
                 />
               </FormControl>
               <FormMessage />
