@@ -26,12 +26,7 @@ export function OnboardingForm({
   const { mutate } = useEditLLC();
 
   async function onSubmit(data: any) {
-    mutate({
-      ...data,
-      llc_members: JSON.stringify(data.llc_members || []), // Store as JSON in Supabase
-    });
     router.push("/dashboard");
-    console.log(data);
   }
 
   return (

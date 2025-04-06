@@ -1,4 +1,4 @@
-import { useFieldArray, useForm } from "react-hook-form";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
@@ -20,12 +20,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "../shared/file-upload";
 import { createLLCSchema } from "@/lib/schema";
-import { useGetLLC } from "@/queries/company-onboarding";
+import { useEditLLC, useGetLLC } from "@/queries/company-onboarding";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import { CalendarIcon, File, Loader2, Trash2Icon, X } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -33,6 +33,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/client";
 
 // ✅ Define Form Schema using Zod
 
@@ -40,7 +41,7 @@ import { cn } from "@/lib/utils";
 type LLCFormValues = z.infer<typeof createLLCSchema>;
 
 interface LLCRegistrationFormProps {
-  onSubmit: (data: LLCFormValues) => void;
+  onSubmit?: (data: LLCFormValues) => void;
   defaultValues?: Partial<LLCFormValues>;
   isButton?: boolean;
   llcData?: LLCFormValues;
@@ -49,10 +50,8 @@ interface LLCRegistrationFormProps {
 
 const LLCRegistrationForm: React.FC<LLCRegistrationFormProps> = ({
   onSubmit,
-  defaultValues = {},
   isButton = true,
   llcData,
-  isLoading,
 }) => {
   const form = useForm<LLCFormValues>({
     resolver: zodResolver(createLLCSchema),
@@ -74,15 +73,16 @@ const LLCRegistrationForm: React.FC<LLCRegistrationFormProps> = ({
   // Update form values when fetched data is available
   useEffect(() => {
     if (llcData) {
-      console.log("llcData", llcData);
+      // console.log("llcData", llcData);
       form.reset({
         ...llcData,
+        llc_documents: null,
         llc_members: llcData.llc_members || [], // Default to empty array if null
         date_incorporation: llcData.date_incorporation
           ? new Date(llcData.date_incorporation)
           : new Date(),
       });
-      console.log("form", form.getValues());
+      // console.log("form", form.getValues());
     }
   }, [llcData, form]);
 
@@ -92,9 +92,22 @@ const LLCRegistrationForm: React.FC<LLCRegistrationFormProps> = ({
     name: "llc_members",
   });
 
+  const { mutateAsync, isPending: isLoading } = useEditLLC();
+
+  const handleSubmit: SubmitHandler<LLCFormValues> = async (data) => {
+    onSubmit?.(data);
+
+    await mutateAsync({
+      ...data,
+      llc_members: data.llc_members, // No need to stringify
+    });
+
+    setValue("llc_documents", null);
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-6">
         {/* LLC Name */}
         <FormField
           control={form.control}
@@ -333,11 +346,27 @@ const LLCRegistrationForm: React.FC<LLCRegistrationFormProps> = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Upload LLC Documents</FormLabel>
+
+              {llcData?.llc_documents && (
+                <div className="flex flex-col gap-2">
+                  {llcData?.llc_documents.map((document: any) => (
+                    <div
+                      key={document.id}
+                      className="flex items-center gap-2 py-1"
+                    >
+                      <File className="h-4 w-4" />
+                      <span className="text-sm text-muted-foreground">
+                        {document.name.replace(/^\d+-/, "")}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <FormControl>
                 <FileUpload
                   value={field.value}
                   onChange={(files) => field.onChange(files)}
-                  multiple
                 />
               </FormControl>
               <FormMessage />

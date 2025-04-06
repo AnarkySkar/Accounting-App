@@ -27,7 +27,12 @@ export async function GET(request: Request) {
       return NextResponse.json(null, { status: 404 });
     }
 
-    return NextResponse.json(data);
+    const fixedData = {
+      ...data,
+      llc_documents: JSON.parse(data.llc_documents),
+    };
+
+    return NextResponse.json(fixedData);
   } catch (error) {
     console.error("Unexpected error:", error);
     return NextResponse.json(
@@ -74,7 +79,7 @@ export async function PATCH(request: Request) {
     };
 
     // Update the company
-    const { data: updatedLLC, error: updateError } = await supabase
+    const { data: rawData, error: updateError } = await supabase
       .from("companies")
       .update(dataToUpdate)
       .eq("id", userId)
@@ -85,6 +90,11 @@ export async function PATCH(request: Request) {
       console.error("Update error:", updateError);
       return NextResponse.json({ error: updateError.message }, { status: 500 });
     }
+
+    const updatedLLC = {
+      ...rawData,
+      llc_documents: JSON.parse(rawData.llc_documents),
+    };
 
     return NextResponse.json(updatedLLC);
   } catch (error) {

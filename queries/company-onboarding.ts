@@ -4,6 +4,7 @@ import { z } from "zod";
 import { createLLCSchema } from "@/lib/schema";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "@/hooks/use-toast";
 
 // ✅ 3. Hook for fetching a single LLC by ID
 export const useGetLLC = () => {
@@ -27,22 +28,38 @@ export const useGetLLC = () => {
 // ✅ 4. Hook for editing LLC details
 export const useEditLLC = () => {
   const queryClient = useQueryClient();
+  const { data: llcData } = useGetLLC(); // Fetch LLC Data
   const { user } = useAuth();
   const supabase = createClient();
 
   const editLLC = async (data: z.infer<typeof createLLCSchema>) => {
     // Handle file upload first if there's a file
-    let fileUrl = null;
-    if (data.llc_documents) {
-      const { data: fileData, error } = await supabase.storage
-        .from("documents")
-        .upload(
-          `llc-documents/${Date.now()}-${data.llc_documents.name}`,
-          data.llc_documents
-        );
 
-      if (error) throw error;
-      fileUrl = fileData.path;
+    if (!user?.id) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to edit LLC details",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const fileUrls = llcData.llc_documents ?? [];
+
+    if (data.llc_documents) {
+      for (let document of data.llc_documents) {
+        const file = document;
+        const fileName = `${Date.now()}-${file.name}`;
+        const filePath = `${user.id}/documents/${fileName}`;
+
+        const { data: uploadedFile, error } = await supabase.storage
+          .from("documents")
+          .upload(filePath, file);
+
+        if (error) throw error;
+
+        fileUrls.push({ id: uploadedFile.id, name: fileName });
+      }
     }
 
     // Then send the data to the API
@@ -62,7 +79,7 @@ export const useEditLLC = () => {
         state_incorporation: data.state_incorporation,
         date_incorporation: data.date_incorporation?.toISOString(),
         llc_members: data.llc_members,
-        ...(fileUrl ? { llc_documents: fileUrl } : {}),
+        llc_documents: fileUrls,
       }),
     });
 
@@ -71,7 +88,7 @@ export const useEditLLC = () => {
       throw new Error(error.message || "Failed to update LLC");
     }
 
-    return response.json();
+    return await response.json();
   };
 
   return useMutation<any, Error, z.infer<typeof createLLCSchema>>({
@@ -84,5 +101,45 @@ export const useEditLLC = () => {
     onError: (error) => {
       console.error("Mutation error:", error);
     },
+  });
+};
+
+export const useDeleteLLCDocument = () => {
+  const { user } = useAuth();
+  const { data: llcData } = useGetLLC(); // Fetch LLC Data
+
+  const mutationFn = async (fileName: string) => {
+    if (!user?.id) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to edit LLC details",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const response = await fetch(`/api/company-onboarding?userId=${user?.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...llcData,
+        llc_documents: llcData.llc_documents.filter(
+          (doc: any) => doc.name !== fileName
+        ),
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to update LLC");
+    }
+
+    return await response.json();
+  };
+
+  return useMutation({
+    mutationFn,
   });
 };

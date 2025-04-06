@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Cloud, File, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,10 @@ interface FileUploadProps {
 
 export function FileUpload({ value, onChange, className }: FileUploadProps) {
   const [files, setFiles] = useState<File[]>(value || []); // Gestisce un array di file
+
+  useEffect(() => {
+    setFiles(value || []);
+  }, [value]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -57,7 +61,9 @@ export function FileUpload({ value, onChange, className }: FileUploadProps) {
             {files.map((file, index) => (
               <div key={index} className="flex items-center gap-2">
                 <File className="h-4 w-4" />
-                <span className="text-sm text-muted-foreground">{file.name}</span>
+                <span className="text-sm text-muted-foreground">
+                  {file.name}
+                </span>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();

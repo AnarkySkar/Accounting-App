@@ -137,7 +137,7 @@ export default function InvoiceForm() {
             <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8">
               <div className="space-y-2">
                 <div
-                  className="w-24 h-24 md:w-32 md:h-32 bg-gray-100 flex items-center justify-center rounded cursor-pointer"
+                  className="w-24 h-24 md:w-32 md:h-32 bg-secondary flex items-center justify-center rounded cursor-pointer"
                   onClick={() => inputRef?.current?.click()}
                 >
                   {logo ? (
@@ -147,7 +147,7 @@ export default function InvoiceForm() {
                       className="w-full h-full object-cover rounded"
                     />
                   ) : (
-                    <div className="flex items-center gap-1 text-gray-400">
+                    <div className="flex items-center gap-1 text-muted-foreground">
                       <span>Logo</span>
                       <Plus className="h-5 w-5" />
                     </div>
@@ -353,7 +353,7 @@ export default function InvoiceForm() {
           <CardContent className="p-4 md:p-6">
             <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8 md:mb-10">
               <div className="space-y-2">
-                <div className="w-24 h-24 md:w-32 md:h-32 bg-gray-100 flex items-center justify-center rounded">
+                <div className="w-24 h-24 md:w-32 md:h-32 bg-secondary flex items-center justify-center rounded">
                   {logo && (
                     <img
                       src={logo}
@@ -362,44 +362,48 @@ export default function InvoiceForm() {
                     />
                   )}
                 </div>
-
-                <div className="mt-2">
-                  <p className="font-semibold">{user?.user_metadata?.name}</p>
-                  <p className="text-sm md:text-base">
-                    {user?.user_metadata?.address}
-                  </p>
-                </div>
               </div>
-              <div className="text-left md:text-right">
+              <div className="text-left md:text-right flex flex-col gap-1">
                 <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   INVOICE
                 </h1>
                 <p>{submittedData?.invoiceNumber}</p>
-
-                <div className="mt-4 flex items-center md:justify-end gap-2">
-                  <span>Date: {format(date, "PPP")}</span>
+                <div className="flex items-center md:justify-end gap-2">
+                  <span>
+                    <strong>Date:</strong> {format(date, "PPP")}
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="mb-8 md:mb-10">
-              <h2 className="text-lg font-semibold mb-2">Bill To:</h2>
-              <div className="space-y-1">
-                {submittedData?.customerName && (
-                  <p>{submittedData.customerName}</p>
-                )}
-                {submittedData?.customerAddress && (
-                  <p>{submittedData.customerAddress}</p>
-                )}
-                {submittedData?.customerCity && (
-                  <p>{submittedData.customerCity}</p>
-                )}
+            <div className="flex mb-8 md:mb-10 gap-10">
+              <div className="w-1/3">
+                <h2 className="text-lg font-semibold mb-1">From:</h2>
+                <p>TAM SUPPORT LLC</p>
+                <p className="text-sm md:text-base">
+                  30 N GOULD STE RN SHERIDNA 234908, EIN 234908
+                </p>
+              </div>
+
+              <div className="w-1/3">
+                <h2 className="text-lg font-semibold mb-1">Bill To:</h2>
+                <div className="space-y-1">
+                  {submittedData?.customerName && (
+                    <p>{submittedData.customerName}</p>
+                  )}
+                  {submittedData?.customerAddress && (
+                    <p>{submittedData.customerAddress}</p>
+                  )}
+                  {submittedData?.customerCity && (
+                    <p>{submittedData.customerCity}</p>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="mb-8 overflow-x-auto">
+            <div className="overflow-x-auto py-0.5">
               <div className="min-w-[600px]">
-                <div className="grid grid-cols-12 gap-2 md:gap-4 mb-2 font-semibold text-sm md:text-base">
+                <div className="grid grid-cols-12 gap-2 md:gap-4 font-semibold text-sm md:text-base py-3">
                   <div className="col-span-6">ITEMS</div>
                   <div className="col-span-2">QUANTITY</div>
                   <div className="col-span-2">UNIT PRICE</div>
@@ -409,7 +413,7 @@ export default function InvoiceForm() {
                 {items?.map((item) => (
                   <div
                     key={item.id}
-                    className="grid grid-cols-12 gap-2 md:gap-4 mb-3 md:mb-4 text-sm md:text-base"
+                    className="grid grid-cols-12 gap-2 md:gap-4 text-sm md:text-base py-3"
                   >
                     <div className="col-span-6">
                       <p className="ml-0.5 font-semibold">{item.description}</p>
@@ -430,23 +434,35 @@ export default function InvoiceForm() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-10 md:mt-20">
-              <div>
+            <div className="grid grid-cols-2 gap-6 md:gap-8 mt-2">
+              <div className="py-3">
                 <h2 className="text-lg font-semibold mb-2">Notes:</h2>
                 <p className="text-sm md:text-base">{submittedData?.notes}</p>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span>Subtotal:</span>
-                  <span>{formatCurrency(calculateSubtotal())}</span>
+              <div>
+                <div className="grid grid-cols-3 py-3 gap-2 md:gap-4">
+                  <div className="col-span-2 text-end">
+                    <span>Subtotal:</span>
+                  </div>
+                  <div className="w-1/3">
+                    <span>{formatCurrency(calculateSubtotal())}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span>Tax (%):</span>
-                  <p>{tax}%</p>
+                <div className="grid grid-cols-3 py-3 gap-2 md:gap-4">
+                  <div className="col-span-2 text-end">
+                    <span>Tax (%):</span>
+                  </div>
+                  <div>
+                    <p>{tax}%</p>
+                  </div>
                 </div>
-                <div className="flex justify-between font-semibold text-lg">
-                  <span>Total:</span>
-                  <span>{formatCurrency(calculateTotal())}</span>
+                <div className="grid grid-cols-3 py-3 gap-2 md:gap-4">
+                  <div className="col-span-2 text-end">
+                    <span>Total:</span>
+                  </div>
+                  <div>
+                    <span>{formatCurrency(calculateTotal())}</span>
+                  </div>
                 </div>
               </div>
             </div>

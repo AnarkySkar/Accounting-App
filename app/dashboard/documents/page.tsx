@@ -21,8 +21,9 @@ import { useAuth } from "@/context/AuthContext";
 import { useDropzone } from "react-dropzone";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DynamicComment from "@/components/shared/DynamicComment";
+import { useDeleteLLCDocument, useGetLLC } from "@/queries/company-onboarding";
 interface StorageFile {
   name: string;
   folder: string;
@@ -42,6 +43,8 @@ const StoragePage = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [activeTab, setActiveTab] = useState("all");
+  const { data: llcData } = useGetLLC(); // Fetch LLC Data
+  const { mutateAsync: deleteLLCDocument } = useDeleteLLCDocument();
   const { user } = useAuth();
   const { toast } = useToast();
   const loadFiles = useCallback(async () => {
@@ -55,6 +58,8 @@ const StoragePage = () => {
           limit: 100,
           sortBy: { column: "created_at", order: "desc" },
         });
+
+      console.log(data);
 
       if (error) throw error;
 
@@ -97,34 +102,32 @@ const StoragePage = () => {
           const fileName = `${Date.now()}-${file.name}`;
           const filePath = `${user.id}/documents/${fileName}`;
 
-          // const { error } = await supabase.storage
-          //   .from("documents")
-          //   .upload(filePath, file, {
-          //     cacheControl: "3600",
-          //     upsert: false,
-          //   });
+          const { data, error } = await supabase.storage
+            .from("documents")
+            .upload(filePath, file, {
+              cacheControl: "3600",
+              upsert: false,
+            });
 
-          // if (error) throw error;
+          if (error) throw error;
 
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("company_id", user.id);
-          formData.append("folder", "documents");
+          // const formData = new FormData();
+          // formData.append("file", file);
+          // formData.append("company_id", user.id);
+          // formData.append("folder", "documents");
 
-          // Upload the file using a dedicated file upload endpoint
-          const uploadResponse = await fetch("/api/upload-file", {
-            method: "POST",
-            body: formData,
-          });
+          // // Upload the file using a dedicated file upload endpoint
+          // const uploadResponse = await fetch("/api/upload-file", {
+          //   method: "POST",
+          //   body: formData,
+          // });
 
-          if (!uploadResponse.ok) {
-            const errorData = await uploadResponse.json();
-            throw new Error(errorData.message || "File upload failed");
-          }
+          // if (!uploadResponse.ok) {
+          //   const errorData = await uploadResponse.json();
+          //   throw new Error(errorData.message || "File upload failed");
+          // }
 
-          const uploadResult = await uploadResponse.json();
-
-          console.log(uploadResult);
+          // const uploadResult = await uploadResponse.json();
 
           // Update progress
           const progress = ((i + 1) / acceptedFiles.length) * 100;
@@ -192,8 +195,12 @@ const StoragePage = () => {
     }
   };
 
-  const deleteFile = async (fileName: string) => {
+  const deleteFile = async (fileId: string, fileName: string) => {
     if (!confirm("Are you sure you want to delete this file?")) return;
+
+    const isLLCDocument = llcData.llc_documents.some(
+      (doc: any) => doc.name === fileName
+    );
 
     try {
       const { error } = await supabase.storage
@@ -201,6 +208,11 @@ const StoragePage = () => {
         .remove([`${user?.id}/documents/${fileName}`]);
 
       if (error) throw error;
+
+      //! UNCOMMENT THIS WHEN DELETE FUNCTIONALITY IS ADDED
+      // if (isLLCDocument) {
+      //   await deleteLLCDocument(fileName);
+      // }
 
       toast({
         title: "Success",
@@ -380,7 +392,7 @@ const StoragePage = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => deleteFile(file.name)}
+                  onClick={() => deleteFile(file.id, file.name)}
                   className="text-red-500 hover:text-red-700 hover:bg-red-50"
                   title="Delete"
                 >

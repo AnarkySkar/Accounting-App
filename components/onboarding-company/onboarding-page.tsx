@@ -15,6 +15,9 @@ import CompanyForm from "./CompanyForm";
 import { Button } from "@/components/ui/button";
 import { useEditLLC, useGetLLC } from "@/queries/company-onboarding";
 import { useTranslation } from "react-i18next";
+import { SubmitHandler, UseFormReturn } from "react-hook-form";
+import { createLLCSchema } from "@/lib/schema";
+import { z } from "zod";
 interface OnboardingFormProps extends React.ComponentPropsWithoutRef<"div"> {
   searchParams: Message;
 }
@@ -25,17 +28,9 @@ export function OnboardingFormPage({
   ...props
 }: OnboardingFormProps) {
   const { t } = useTranslation();
-  const { mutate, isPending } = useEditLLC();
+  const { mutateAsync, isPending } = useEditLLC();
   const { data: llcData } = useGetLLC(); // Fetch LLC Data
   const cardData = llcData;
-  console.log(cardData, "cardData");
-  async function onSubmit(data: any) {
-    mutate({
-      ...data,
-      llc_members: data.llc_members, // No need to stringify
-    });
-    console.log(data, "data");
-  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -48,12 +43,7 @@ export function OnboardingFormPage({
             <CardDescription>{t("company-info.subtitle")}</CardDescription>
           </CardHeader>
           <CardContent>
-            <CompanyForm
-              onSubmit={onSubmit}
-              isButton={false}
-              llcData={cardData}
-              isLoading={isPending}
-            />
+            <CompanyForm isButton={false} llcData={cardData} />
           </CardContent>
         </Card>
       </div>
