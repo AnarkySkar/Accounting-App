@@ -1,0 +1,217 @@
+{
+  "date_picker_placeholder": "Pick a date",
+  "no_results": "No results.",
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome_message": "Welcome back!",
+    "annualCard": {
+      "description": "This is the overview of your business data. You can export a detailed report in PDF or Excel and give it to the CPA during tax filing.",
+      "title": "Annual Financial Overview",
+      "business_income": "Business Income",
+      "personal_income": "Personal Income",
+      "business_expenses": "Business Expenses",
+      "personal_expenses": "Personal Expenses",
+      "total_income": "Total Income",
+      "total_expenses": "Total Expenses",
+      "copy_annual_data": "Copy annual data",
+      "annual_data_copied": "Annual data copied",
+      "total_physical_assets": "Total Physical Assets",
+      "total_digital_assets": "Total Digital Assets",
+      "total_liquid_assets": "Total Liquid Assets"
+    },
+
+    "tabs": {
+      "invoices": "Invoices",
+      "expenses": "Expenses",
+      "revenue": "Revenue",
+      "dividends": "Dividends",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "invoices": {
+      "total": "Total invoices",
+      "totalAmount": "Total invoices amount",
+      "uploaded": "Invoices uploaded",
+      "generated": "Invoices generated",
+      "amount": "Invoice amount",
+      "recent": "Recent invoices"
+    },
+    "expenses": {
+      "total": "Total expenses",
+      "totalAmount": "Total expenses amount",
+      "uploaded": "Expenses uploaded",
+      "businessExpenses": "Business expenses",
+      "personalExpenses": "Personal expenses",
+      "amount": "Expense amount",
+      "recent": "Recent expenses"
+    },
+    "revenue": {
+      "total": "Total revenue",
+      "totalAmount": "Total revenue amount",
+      "uploaded": "Revenue uploaded",
+      "recent": "Recent revenue",
+      "businessExpenses": "Business expenses",
+      "personalExpenses": "Personal expenses",
+      "amount": "Revenue amount"
+    },
+    "dividends": {
+      "total": "Total dividends",
+      "totalAmount": "Total dividends amount",
+      "uploaded": "Dividends uploaded",
+      "recent": "Recent dividends",
+      "amount": "Dividend amount"
+    }
+  },
+  "invoices": {
+    "description": "Here's a list of your invoices",
+    "create_invoice": {
+      "dialog_title": "Add Invoice",
+      "title": "Title",
+      "amount": "Total Amount $",
+      "toast": {
+        "success": {
+          "title": "Invoice created!",
+          "description": "Invoice created successfully"
+        },
+        "error": {
+          "title": "Error creating invoice",
+          "description": "Error creating invoice"
+        }
+      },
+      "button": {
+        "add": "Add Invoice",
+        "loading": "Adding Invoice..."
+      }
+    }
+  },
+  "data-table-toolbar": {
+    "filter": {
+      "expenses": "Filter expenses...",
+      "invoices": "Filter invoices...",
+      "revenue": "Filter revenue...",
+      "dividends": "Filter dividends...",
+      "assets": "Filter assets..."
+    }
+  },
+  "expenses": {
+    "description": "Record the expenses incurred each month here. For details of each expense, keep track of the related invoices or receipts."
+  },
+  "revenue": {
+    "description": "Record the monthly income of your LLC. It's not necessary to enter each individual transaction, only the monthly total."
+  },
+  "dividends": {
+    "description": "Record here the dividends paid to members. This data is crucial for tax reporting."
+  },
+  "company-info": {
+    "description": "This section contains the main data of your LLC. We recommend updating them if they change, especially the tax residence and company documents.",
+    "title": "Company Registration",
+    "subtitle": "You can view your company details below and update them if needed"
+  },
+  "assets": {
+    "description": "Enter here the total value of the LLC's assets as of December 31st. This information is required for tax filing."
+  },
+  "documents": {
+    "description": "Upload here the documents related to the LLC's activity. These files are required for accounting management and tax filing."
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "invoices": "Invoices",
+    "expenses": "Expenses",
+    "revenue": "Revenue",
+    "dividends": "Dividends",
+    "gen-invoice": "Generate Invoice",
+    "company-info": "Company Info",
+    "faq": "FAQ",
+    "assets": "Assets",
+    "documents": "Documents"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "description": "Find answers to common questions about Transfer Manager Consulting services",
+    "tabs": {
+      "assistance": "Assistance",
+      "training": "Training",
+      "experience": "Experience",
+      "technical": "Technical"
+    },
+    "assistance": {
+      "title": "Assistance and Support",
+      "description": "Learn about the support options available to Transfer Manager Consulting clients",
+      "content": {
+        "paragraph1": "As a client of Transfer Manager Consulting, you have daily chat support with Simone in your dedicated Telegram group. You can ask him any questions or concerns regarding your personal and business situation.",
+        "paragraph2": "For dedicated video calls with Simone (to be arranged with him in advance), you can book them at this link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/tm-affitto",
+        "paragraph3": "You also have access to all updates and periodic initiatives from Transfer Manager Consulting directly on the Telegram channel. Access it here:",
+        "link2": "https://t.me/+INexjvzJ_Yw3ZGI0"
+      }
+    },
+    "training": {
+      "title": "Training Materials",
+      "description": "Explore the comprehensive training resources available to clients",
+      "content": {
+        "paragraph1": "As a client of Transfer Manager Consulting, you can access all training materials at the following link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/clientitma",
+        "paragraph2": "This includes hours of training, such as:",
+        "accordion": {
+          "item1": {
+            "title": "THE BIBLE OF MOVING ABROAD",
+            "content": "An exclusive video course of over 11 hours, recorded in recent months, where I have gathered and organized all the essential information for your residency and business abroad in a clear and sequential manner."
+          },
+          "item2": {
+            "title": "ASSET PROTECTION SHIELD",
+            "content": "An exclusive webinar from past months, where we thoroughly discussed the best strategies to protect and secure your wealth, regardless of your financial situation or income."
+          },
+          "item3": {
+            "title": "EASY LLC MANAGEMENT",
+            "content": "The most comprehensive workshop on managing your LLC."
+          }
+        }
+      }
+    },
+    "experience": {
+      "title": "Transfer Experience",
+      "description": "Discover exclusive networking and learning opportunities",
+      "content": {
+        "paragraph1": "As a client of Transfer Manager Consulting, you have exclusive access to live MasterMind events, organized in various European locations and reserved only for Transfer Manager Consulting clients.",
+        "paragraph2": "These events are limited in number, designed to create strategic networking opportunities among entrepreneurs, with the participation of special guests.",
+        "accordion": {
+          "item1": {
+            "title": "What happens at MasterMind events?",
+            "content1": "During the MasterMind events, you will not only have the opportunity to exchange ideas and build strategic collaborations but also interact with top professionals in the industry. It's a unique chance to expand your network and learn from experts and fellow entrepreneurs.",
+            "content2": "Additionally, you can apply for a speaking slot during the event, where you can present your project and business. This will give you visibility and allow you to showcase your idea or business to a targeted audience of entrepreneurs. (The experience includes all training sessions, lunches, and dinners. Hotel and travel expenses are excluded.)"
+          }
+        },
+        "contact_info": {
+          "title": "For more information about Transfer Experience events:",
+          "text": "Contact us via WhatsApp at:",
+          "phone": "+393497013557"
+        }
+      }
+    },
+    "technical": {
+      "title": "Technical Support and Issue Resolution",
+      "description": "Get help with technical issues and account management",
+      "accordion": {
+        "item1": {
+          "title": "How can I contact customer support if I have technical issues?",
+          "content": "You can reach our customer support team via WhatsApp at +393497013557"
+        },
+        "item2": {
+          "title": "I forgot my password. How can I reset it?",
+          "content": "Click on the \"Forgot Password\" link on the login page. Enter the email address associated with your account, and we will send you a link to reset your password. Follow the instructions in the email to create a new password."
+        },
+        "item3": {
+          "title": "The system is slow. What can I do?",
+          "content": "If you experience slow performance, try clearing your browser cache and cookies. Ensure you are using a supported browser (latest versions of Chrome, Firefox, Safari, or Edge). If the issue persists, contact our support team."
+        }
+      }
+    },
+    "additional_help": {
+      "title": "Need Additional Help?",
+      "description": "If you can't find the answer to your question, please contact our support team",
+      "telegram_button": "Join Telegram Channel",
+      "whatsapp_button": "WhatsApp Support"
+    }
+  }
+}

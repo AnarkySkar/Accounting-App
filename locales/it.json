@@ -1,0 +1,216 @@
+{
+  "date_picker_placeholder": "Seleziona una data",
+  "no_results": "Nessun risultato.",
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome_message": "Bentornato!",
+    "annualCard": {
+      "description": "Questa è la panoramica dei dati della tua attività. Puoi esportare un report dettagliato in PDF o Excel e consegnarlo al CPA durante la dichiarazione dei redditi.",
+      "title": "Panoramica Finanziaria Annuale",
+      "business_income": "Reddito d'impresa",
+      "personal_income": "Reddito personale",
+      "business_expenses": "Spese aziendali",
+      "personal_expenses": "Spese personali",
+      "total_income": "Reddito totale",
+      "total_expenses": "Spese totali",
+      "copy_annual_data": "Copia dati annuali",
+      "annual_data_copied": "Dati annuali copiati",
+      "total_physical_assets": "Attività fisiche totali",
+      "total_digital_assets": "Attività digitali totali",
+      "total_liquid_assets": "Attività liquide totali"
+    },
+    "tabs": {
+      "invoices": "Fatture",
+      "expenses": "Spese",
+      "revenue": "Entrate",
+      "dividends": "Dividendi",
+      "weekly": "Settimanale",
+      "monthly": "Mensile",
+      "yearly": "Annuale"
+    },
+    "invoices": {
+      "total": "Totale fatture",
+      "totalAmount": "Importo totale delle fatture",
+      "uploaded": "Fatture caricate",
+      "generated": "Fatture generate",
+      "amount": "Importo fattura",
+      "recent": "Fatture recenti"
+    },
+    "expenses": {
+      "total": "Totale spese",
+      "totalAmount": "Importo totale delle spese",
+      "uploaded": "Spese caricate",
+      "businessExpenses": "Spese aziendali",
+      "personalExpenses": "Spese personali",
+      "amount": "Importo spesa",
+      "recent": "Spese recenti"
+    },
+    "revenue": {
+      "total": "Totale entrate",
+      "totalAmount": "Importo totale delle entrate",
+      "uploaded": "Entrate caricate",
+      "recent": "Entrate recenti",
+      "businessExpenses": "Spese aziendali",
+      "personalExpenses": "Spese personali",
+      "amount": "Importo entrate"
+    },
+    "dividends": {
+      "total": "Totale dividendi",
+      "totalAmount": "Importo totale dei dividendi",
+      "uploaded": "Dividendi caricati",
+      "recent": "Dividendi recenti",
+      "amount": "Importo dividendi"
+    }
+  },
+  "invoices": {
+    "description": "Ecco un elenco delle tue fatture",
+    "create_invoice": {
+      "dialog_title": "Aggiungi Fattura",
+      "title": "Titolo",
+      "amount": "Importo Totale $",
+      "toast": {
+        "success": {
+          "title": "Fattura creata!",
+          "description": "Fattura creata con successo"
+        },
+        "error": {
+          "title": "Errore nella creazione della fattura",
+          "description": "Errore nella creazione della fattura"
+        }
+      },
+      "button": {
+        "add": "Aggiungi Fattura",
+        "loading": "Aggiunta della fattura in corso..."
+      }
+    }
+  },
+  "data-table-toolbar": {
+    "filter": {
+      "expenses": "Filtra spese...",
+      "invoices": "Filtra fatture...",
+      "revenue": "Filtra entrate...",
+      "dividends": "Filtra dividendi...",
+      "assets": "Filtra attività..."
+    }
+  },
+  "expenses": {
+    "description": "Registra qui le spese sostenute ogni mese. Per i dettagli di ciascuna spesa, tieni traccia delle fatture o ricevute corrispondenti."
+  },
+  "revenue": {
+    "description": "Registra il reddito mensile della tua LLC. Non è necessario inserire ogni singola transazione, ma solo il totale mensile."
+  },
+  "dividends": {
+    "description": "Registra qui i dividendi pagati ai soci. Questi dati sono fondamentali per la dichiarazione fiscale."
+  },
+  "company-info": {
+    "description": "Questa sezione contiene i principali dati della tua LLC. Ti consigliamo di aggiornarli se cambiano, soprattutto la residenza fiscale e i documenti aziendali.",
+    "title": "Registrazione Azienda",
+    "subtitle": "Puoi visualizzare i dettagli della tua azienda qui e aggiornarli se necessario"
+  },
+  "assets": {
+    "description": "Inserisci qui il valore totale delle attività della tua LLC al 31 dicembre. Questa informazione è necessaria per la dichiarazione fiscale."
+  },
+  "documents": {
+    "description": "Carica qui i documenti relativi all'attività della tua LLC. Questi file sono necessari per la gestione contabile e la dichiarazione fiscale."
+  },
+  "sidebar": {
+    "dashboard": "Pannello di controllo",
+    "invoices": "Fatture",
+    "expenses": "Spese",
+    "revenue": "Entrate",
+    "dividends": "Dividendi",
+    "gen-invoice": "Genera Fattura",
+    "company-info": "Informazioni Azienda",
+    "faq": "Domande frequenti",
+    "assets": "Attività",
+    "documents": "Documenti"
+  },
+  "faq": {
+    "title": "Domande Frequenti",
+    "description": "Trova risposte alle domande comuni sui servizi di Transfer Manager Consulting",
+    "tabs": {
+      "assistance": "Assistenza",
+      "training": "Formazione",
+      "experience": "Experience",
+      "technical": "Supporto Tecnico"
+    },
+    "assistance": {
+      "title": "Assistenza e Supporto",
+      "description": "Scopri le opzioni di supporto disponibili per i clienti di Transfer Manager Consulting",
+      "content": {
+        "paragraph1": "In qualità di cliente della transfer manager consulting hai accesso a un'assistenza giornaliera in chat con Simone sul gruppo Telegram dedicato a te. Puoi porre a lui tutte le domande e dubbi sulla tua situazione eprsonale e aziendale",
+        "paragraph2": "Per Videocall deidcate direttamente con Simone (Da pattuire con lui in anticipo), puoi prenotarle a questo link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/tm-affitto",
+        "paragraph3": "Inoltre, hai accesso a tutti gli aggiornamenti e le iniziative periodiche della \"Transfer manager Consulting\" direttamente sul Canale telegram.",
+        "link2": "https://t.me/+INexjvzJ_Yw3ZGI0"
+      }
+    },
+    "training": {
+      "title": "Materiali di Formazione",
+      "description": "Esplora le risorse di formazione complete disponibili per i clienti",
+      "content": {
+        "paragraph1": "In qualità di cliente della Transfer Manager Consulting puoi accedere a tutti i materiali formativi dal seguente link:",
+        "link1": "https://funnel.transfermanagerconsulting.com/clientitma",
+        "paragraph2": "Qui sono contenute ore di formazione tra le quali:",
+        "accordion": {
+          "item1": {
+            "title": "LA BIBBIA DEL TRASFERIMENTO ALL'ESTERO",
+            "content": "Un videocorso esclusivo di oltre 11 ore che ho registrato nei mesi precedenti, in cui ho raccolto e organizzato in modo chiaro e sequenziale tutte le informazioni necessarie da sapere per la vostra residenza e attività all'estero."
+          },
+          "item2": {
+            "title": "SCUDO PATRIMONIALE",
+            "content": "Si tratta di un webinar esclusivo fatto nei mesi scorsi dove abbiamo affrontato in dettaglio le migliori strategie per proteggere e blindare il vostro patrimonio, indipendentemente dalla vostra situazione finanziaria o dalle entrate che generate."
+          },
+          "item3": {
+            "title": "GESTIONE LLC FACILE",
+            "content": "Il workshop più completo sulla gestione della tua LLC."
+          }
+        }
+      }
+    },
+    "experience": {
+      "title": "Transfer Experience",
+      "description": "Scopri opportunità esclusive di networking e apprendimento",
+      "content": {
+        "paragraph1": "In qualità di cliente della Transfer manager Consulting hai accesso esclusivo alle MasterMind dal vivo, organizzata in diverse località europee e riservati solo ai clienti della Transfer Manager Consulting. Questi eventi sono a numero chiuso, progettati per creare occasioni di networking strategico tra imprenditori, con la partecipazione di ospiti speciali.",
+        "paragraph2": "Durante le MasterMind, non solo avrai l'opportunità di scambiare idee e costruire collaborazioni strategiche, ma potrai anche interagire con professionisti di spicco del settore. È un'occasione unica per espandere la tua rete e apprendere dalle esperienze di esperti e colleghi.",
+        "accordion": {
+          "item1": {
+            "title": "Cosa succede alle MasterMind?",
+            "content1": "Durante le MasterMind, non solo avrai l'opportunità di scambiare idee e costruire collaborazioni strategiche, ma potrai anche interagire con professionisti di spicco del settore. È un'occasione unica per espandere la tua rete e apprendere dalle esperienze di esperti e colleghi.",
+            "content2": "Inoltre, c'è la possibilità di candidarsi per uno speech durante l'evento, dove potrai parlare del tuo progetto e della tua attività. Questo ti darà visibilità e ti permetterà di far conoscere la tua idea o il tuo business a un pubblico di imprenditori in target. (E' inclusa tutta l'esperienza, con formazioni, pranzi, cene. Escluso Hotel e viaggio)"
+          }
+        },
+        "contact_info": {
+          "title": "Per maggiori informazioni contattaci su whatsapp a:",
+          "text": "Contattaci via WhatsApp al:",
+          "phone": "+393497013557"
+        }
+      }
+    },
+    "technical": {
+      "title": "Risoluzione Problemi Tecnici",
+      "description": "Ottieni aiuto con problemi tecnici e gestione dell'account",
+      "accordion": {
+        "item1": {
+          "title": "Come posso contattare l'assistenza clienti se ho problemi tecnici?",
+          "content": "Puoi contattare il nostro team di assistenza clienti su whatsapp al numero +393497013557"
+        },
+        "item2": {
+          "title": "Ho dimenticato la password. Come posso reimpostarla?",
+          "content": "Fai clic sul link \"Password dimenticata\" nella pagina di accesso. Inserisci l'indirizzo email associato al tuo account e ti invieremo un link per reimpostare la password. Segui le istruzioni nell'email per creare una nuova password."
+        },
+        "item3": {
+          "title": "Il sistema è lento. Cosa posso fare?",
+          "content": "Se riscontri prestazioni lente, prova a cancellare la cache e i cookie del browser. Assicurati di utilizzare un browser supportato (ultime versioni di Chrome, Firefox, Safari o Edge). Se il problema persiste, contatta il nostro team di supporto."
+        }
+      }
+    },
+    "additional_help": {
+      "title": "Hai bisogno di ulteriore aiuto?",
+      "description": "Se non riesci a trovare la risposta alla tua domanda, contatta il nostro team di supporto",
+      "telegram_button": "Unisciti al Canale Telegram",
+      "whatsapp_button": "Supporto WhatsApp"
+    }
+  }
+}
