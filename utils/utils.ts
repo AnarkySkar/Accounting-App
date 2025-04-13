@@ -23,14 +23,45 @@ export async function generatePDF(elementId: string) {
   const element = document.getElementById(elementId);
   if (!element) return;
 
+  // Set a slight delay to ensure all elements are rendered properly
+  await new Promise(resolve => setTimeout(resolve, 100));
+
+  // Ensure all content is visible before capturing
+  const originalStyles = {
+    overflow: element.style.overflow,
+    display: element.style.display
+  };
+  
+  // Make sure the element is fully visible when capturing
+  element.style.overflow = 'visible';
+  element.style.display = 'block';
+
   const canvas = await html2canvas(element, {
     scale: 2,
     useCORS: true,
+    allowTaint: true,
+    backgroundColor: "#ffffff",
+    logging: true,
+    onclone: (document, clonedElement) => {
+      // Make sure everything in the cloned element is visible
+      const allElements = clonedElement.querySelectorAll('*');
+      allElements.forEach((el) => {
+        if (el.classList.contains('hide-on-pdf')) {
+          el.style.display = 'none';
+        }
+      });
+    }
   });
 
+  // Restore original styles
+  element.style.overflow = originalStyles.overflow;
+  element.style.display = originalStyles.display;
+
   const imgData = canvas.toDataURL("image/png");
+  
+  // Use portrait orientation for invoices
   const pdf = new jsPDF({
-    orientation: "landscape",
+    orientation: "portrait",
     unit: "px",
     format: [canvas.width, canvas.height],
   });

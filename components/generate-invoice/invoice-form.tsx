@@ -141,8 +141,6 @@ export default function InvoiceForm() {
 
     setOpen(true);
     setSubmittedData(invoice);
-
-    // await saveInvoice(invoice);
   };
 
   // Generate a new random invoice number
@@ -150,379 +148,365 @@ export default function InvoiceForm() {
     setInvoiceNumber(generateRandomInvoiceNumber());
   };
 
+  const handleGeneratePDF = () => {
+    // Make sure all customer data is visible in the preview before generating
+    generatePDF("invoice-form");
+  };
+
   return (
     <div className="w-full">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-4xl mx-auto px-4 py-6 md:p-12 z-[100]"
-      >
+      <div className="w-full max-w-4xl mx-auto px-4 py-6 md:p-12">
         <Card>
           <CardContent className="p-4 md:p-6">
-            <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8">
-              <div className="space-y-2">
-                <div
-                  className="w-24 h-24 md:w-32 md:h-32 bg-secondary flex items-center justify-center rounded cursor-pointer"
-                  onClick={() => inputRef?.current?.click()}
-                >
-                  {logo ? (
-                    <img
-                      src={logo}
-                      alt="Logo"
-                      className="w-full h-full object-cover rounded"
-                    />
-                  ) : (
-                    <div className="flex items-center gap-1 text-muted-foreground">
-                      <span>Logo</span>
-                      <Plus className="h-5 w-5" />
-                    </div>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  ref={inputRef}
-                />
-                <div>
-                  <p className="font-semibold">{user?.user_metadata?.name}</p>
-                  <p className="text-sm md:text-base">
-                    {user?.user_metadata?.address}
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-left md:text-right">
-                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                  INVOICE
-                </h1>
-                <div className="flex md:justify-end items-center">
-                  <div className="flex flex-col items-start md:items-end">
-                    <span className="text-sm font-medium">#</span>
-                    <Input
-                      name="invoiceNumber"
-                      value={invoiceNumber}
-                      onChange={(e) => setInvoiceNumber(e.target.value)}
-                      className="md:text-right"
-                    />
-                  </div>
-                  <Button 
-                    type="button" 
-                    variant="ghost" 
-                    size="icon"
-                    onClick={refreshInvoiceNumber}
-                    className="ml-2 hide-on-pdf"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
-                  </Button>
-                </div>
-                <div className="mt-4 flex items-center md:justify-end gap-2">
-                  <span>Date:</span>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full md:w-[200px] justify-start text-left font-normal"
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "MMM dd, yyyy") : <span>Pick a date</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={(date) => date && setDate(date)}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div>
-                <h2 className="text-lg font-semibold mb-2">FROM:</h2>
-                <div className="space-y-1">
-                  <p className="font-medium">TAM SUPPORT LLC</p>
-                  <p>30 N GOULD STE ST R</p>
-                  <p>SHERIDAN, 82801</p>
-                  <p>EIN: 61-2118570</p>
-                </div>
-              </div>
-              
-              <div>
-                <h2 className="text-lg font-semibold mb-2">BILL TO:</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8">
                 <div className="space-y-2">
-                  <Input 
-                    name="customerName" 
-                    placeholder="Customer Name" 
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                  />
-                  <Input 
-                    name="customerAddress" 
-                    placeholder="Street Address" 
-                    value={customerAddress}
-                    onChange={(e) => setCustomerAddress(e.target.value)}
-                  />
-                  <Input 
-                    name="customerCity" 
-                    placeholder="City, State, Zip" 
-                    value={customerCity}
-                    onChange={(e) => setCustomerCity(e.target.value)}
-                  />
-                  <Input 
-                    name="customerTaxId" 
-                    placeholder="Tax ID / VAT Number" 
-                    value={customerTaxId}
-                    onChange={(e) => setCustomerTaxId(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-8 overflow-x-auto">
-              <div className="min-w-[600px]">
-                <div className="grid grid-cols-12 gap-2 md:gap-4 mb-2 font-semibold text-sm md:text-base border-b-2 border-gray-200 py-2">
-                  <div className="col-span-6">Item</div>
-                  <div className="col-span-2">Quantity</div>
-                  <div className="col-span-2">Unit Price</div>
-                  <div className="col-span-2">Amount</div>
-                </div>
-
-                {items.map((item) => (
                   <div
-                    key={item.id}
-                    className="grid grid-cols-12 gap-2 md:gap-4 mb-2 border-b border-gray-200 py-2"
+                    className="w-24 h-24 md:w-32 md:h-32 bg-secondary flex items-center justify-center rounded cursor-pointer"
+                    onClick={() => inputRef?.current?.click()}
                   >
-                    <div className="col-span-6">
-                      <Input
-                        value={item.description}
-                        onChange={(e) =>
-                          updateItem(item.id, "description", e.target.value)
-                        }
-                        placeholder="Item description"
-                        className="text-sm md:text-base"
+                    {logo ? (
+                      <img
+                        src={logo}
+                        alt="Logo"
+                        className="w-full h-full object-cover rounded"
                       />
-                    </div>
-                    <div className="col-span-2">
-                      <Input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          updateItem(
-                            item.id,
-                            "quantity",
-                            parseInt(e.target.value)
-                          )
-                        }
-                        min="1"
-                        className="text-sm md:text-base"
-                      />
-                    </div>
-                    <div className="col-span-2">
-                      <Input
-                        type="number"
-                        value={item.unitPrice}
-                        onChange={(e) =>
-                          updateItem(
-                            item.id,
-                            "unitPrice",
-                            parseFloat(e.target.value)
-                          )
-                        }
-                        min="0"
-                        step="0.01"
-                        className="text-sm md:text-base"
-                      />
-                    </div>
-                    <div className="col-span-1 flex items-center text-sm md:text-base">
-                      {formatCurrency(item.amount)}
-                    </div>
-                    <div className="col-span-1 flex justify-center">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeItem(item.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
+                    ) : (
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        <span>Logo</span>
+                        <Plus className="h-5 w-5" />
+                      </div>
+                    )}
                   </div>
-                ))}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    ref={inputRef}
+                  />
+                  <div>
+                    <p className="font-semibold">{user?.user_metadata?.name}</p>
+                    <p className="text-sm md:text-base">
+                      {user?.user_metadata?.address}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-left md:text-right">
+                  <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                    INVOICE
+                  </h1>
+                  <div className="flex md:justify-end items-center">
+                    <div className="flex flex-col items-start md:items-end">
+                      <span className="text-sm font-medium">#</span>
+                      <Input
+                        name="invoiceNumber"
+                        value={invoiceNumber}
+                        onChange={(e) => setInvoiceNumber(e.target.value)}
+                        className="md:text-right"
+                      />
+                    </div>
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      size="icon"
+                      onClick={refreshInvoiceNumber}
+                      className="ml-2 hide-on-pdf"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                    </Button>
+                  </div>
+                  <div className="mt-4 flex items-center md:justify-end gap-2">
+                    <span>Date:</span>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="w-full md:w-[200px] justify-start text-left font-normal"
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {date ? format(date, "MMM dd, yyyy") : <span>Pick a date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          onSelect={(date) => date && setDate(date)}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
               </div>
 
-              <Button
-                type="button"
-                variant="outline"
-                className="mt-4"
-                onClick={addItem}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Item
-              </Button>
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                  <h2 className="text-lg font-semibold mb-2">FROM:</h2>
+                  <div className="space-y-1">
+                    <p className="font-medium">TAM SUPPORT LLC</p>
+                    <p>30 N GOULD STE ST R</p>
+                    <p>SHERIDAN, 82801</p>
+                    <p>EIN: 61-2118570</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <h2 className="text-lg font-semibold mb-2">BILL TO:</h2>
+                  <div className="space-y-2">
+                    <Input 
+                      name="customerName" 
+                      placeholder="Customer Name" 
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                    />
+                    <Input 
+                      name="customerAddress" 
+                      placeholder="Street Address" 
+                      value={customerAddress}
+                      onChange={(e) => setCustomerAddress(e.target.value)}
+                    />
+                    <Input 
+                      name="customerCity" 
+                      placeholder="City, State, Zip" 
+                      value={customerCity}
+                      onChange={(e) => setCustomerCity(e.target.value)}
+                    />
+                    <Input 
+                      name="customerTaxId" 
+                      placeholder="Tax ID / VAT Number" 
+                      value={customerTaxId}
+                      onChange={(e) => setCustomerTaxId(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Notes:</h2>
-                <Textarea 
-                  name="notes" 
-                  placeholder="Add any notes here..." 
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
+              <div className="mb-8 overflow-x-auto">
+                <div className="min-w-[600px]">
+                  <div className="grid grid-cols-12 gap-2 md:gap-4 mb-2 font-semibold text-sm md:text-base border-b-2 border-gray-200 py-2">
+                    <div className="col-span-6">Item</div>
+                    <div className="col-span-2">Quantity</div>
+                    <div className="col-span-2">Unit Price</div>
+                    <div className="col-span-2">Amount</div>
+                  </div>
+
+                  {items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="grid grid-cols-12 gap-2 md:gap-4 mb-2 border-b border-gray-200 py-2"
+                    >
+                      <div className="col-span-6">
+                        <Input
+                          value={item.description}
+                          onChange={(e) =>
+                            updateItem(item.id, "description", e.target.value)
+                          }
+                          placeholder="Item description"
+                          className="text-sm md:text-base"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <Input
+                          type="number"
+                          value={item.quantity}
+                          onChange={(e) =>
+                            updateItem(
+                              item.id,
+                              "quantity",
+                              parseInt(e.target.value)
+                            )
+                          }
+                          min="1"
+                          className="text-sm md:text-base"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <Input
+                          type="number"
+                          value={item.unitPrice}
+                          onChange={(e) =>
+                            updateItem(
+                              item.id,
+                              "unitPrice",
+                              parseFloat(e.target.value)
+                            )
+                          }
+                          min="0"
+                          step="0.01"
+                          className="text-sm md:text-base"
+                        />
+                      </div>
+                      <div className="col-span-1 flex items-center text-sm md:text-base">
+                        {formatCurrency(item.amount)}
+                      </div>
+                      <div className="col-span-1 flex justify-center">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeItem(item.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="mt-4"
+                  onClick={addItem}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Item
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div>
+                  <h2 className="text-lg font-semibold mb-2">Notes:</h2>
+                  <Textarea 
+                    name="notes" 
+                    placeholder="Add any notes here..." 
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between border-t border-gray-200 pt-2">
+                    <span>Subtotal:</span>
+                    <span>{formatCurrency(calculateSubtotal())}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Tax (%):</span>
+                    <Input
+                      type="number"
+                      value={tax}
+                      onChange={(e) => setTax(parseFloat(e.target.value))}
+                      className="w-24"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                    />
+                  </div>
+                  <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-2">
+                    <span>Total:</span>
+                    <span>{formatCurrency(calculateTotal())}</span>
+                  </div>
+                  <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-2">
+                    <span>Amount due:</span>
+                    <span>{formatCurrency(calculateTotal())}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col sm:flex-row justify-end gap-4 hide-on-pdf">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleGeneratePDF}
+                  className="w-full sm:w-auto"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download PDF
+                </Button>
+                <InvoiceDetailDialog
+                  open={open}
+                  setOpen={setOpen}
+                  data={submittedData}
                 />
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between border-t border-gray-200 pt-2">
-                  <span>Subtotal:</span>
-                  <span>{formatCurrency(calculateSubtotal())}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Tax (%):</span>
-                  <Input
-                    type="number"
-                    value={tax}
-                    onChange={(e) => setTax(parseFloat(e.target.value))}
-                    className="w-24"
-                    min="0"
-                    max="100"
-                    step="0.1"
-                  />
-                </div>
-                <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-2">
-                  <span>Total:</span>
-                  <span>{formatCurrency(calculateTotal())}</span>
-                </div>
-                <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-2">
-                  <span>Amount due:</span>
-                  <span>{formatCurrency(calculateTotal())}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 flex flex-col sm:flex-row justify-end gap-4 hide-on-pdf">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => generatePDF("invoice-form")}
-                className="w-full sm:w-auto"
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Download PDF
-              </Button>
-              <InvoiceDetailDialog
-                open={open}
-                setOpen={setOpen}
-                data={submittedData}
-              />
-            </div>
+            </form>
           </CardContent>
         </Card>
-      </form>
+      </div>
 
-      <div
-        id="invoice-form"
-        className="w-full max-w-4xl mx-auto mt-12 mb-12 bg-gray-50 p-8 rounded-lg border border-gray-200"
-      >
-        <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8 md:mb-10">
-          <div className="space-y-2">
-            <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center rounded">
+      {/* Completely separate HTML section for PDF generation */}
+      <div id="invoice-form" className="hidden" style={{ position: 'absolute', left: '-9999px', width: '800px' }}>
+        <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f9f9f9' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px' }}>
+            <div>
               {logo && (
                 <img
                   src={logo}
                   alt="Logo"
-                  className="w-full h-full object-cover rounded"
+                  style={{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '4px' }}
                 />
               )}
             </div>
-          </div>
-          <div className="text-left md:text-right flex flex-col gap-1">
-            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
-              INVOICE
-            </h1>
-            <p className="text-lg">#{invoiceNumber}</p>
-            <div className="flex items-center md:justify-end gap-2">
-              <span>
+            <div style={{ textAlign: 'right' }}>
+              <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '8px', color: '#333' }}>
+                INVOICE
+              </h1>
+              <p style={{ fontSize: '18px', marginBottom: '8px' }}>#{invoiceNumber}</p>
+              <p>
                 <strong>Date:</strong> {format(date, "MMM dd, yyyy")}
-              </span>
+              </p>
             </div>
           </div>
-        </div>
 
-        <div className="flex mb-8 md:mb-10 gap-10">
-          <div className="w-1/2">
-            <h2 className="text-lg font-semibold mb-1">FROM:</h2>
-            <p>TAM SUPPORT LLC</p>
-            <p>30 N GOULD STE ST R</p>
-            <p>SHERIDAN, 82801</p>
-            <p>EIN: 61-2118570</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px' }}>
+            <div style={{ width: '48%' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>FROM:</h2>
+              <p style={{ marginBottom: '4px' }}>TAM SUPPORT LLC</p>
+              <p style={{ marginBottom: '4px' }}>30 N GOULD STE ST R</p>
+              <p style={{ marginBottom: '4px' }}>SHERIDAN, 82801</p>
+              <p style={{ marginBottom: '4px' }}>EIN: 61-2118570</p>
+            </div>
+
+            <div style={{ width: '48%' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>BILL TO:</h2>
+              <p style={{ marginBottom: '4px' }}>{customerName}</p>
+              <p style={{ marginBottom: '4px' }}>{customerAddress}</p>
+              <p style={{ marginBottom: '4px' }}>{customerCity}</p>
+              {customerTaxId && <p style={{ marginBottom: '4px' }}>TAX N°: {customerTaxId}</p>}
+            </div>
           </div>
 
-          <div className="w-1/2">
-            <h2 className="text-lg font-semibold mb-1">BILL TO:</h2>
-            <p>{customerName}</p>
-            <p>{customerAddress}</p>
-            <p>{customerCity}</p>
-            {customerTaxId && <p>TAX N°: {customerTaxId}</p>}
-          </div>
-        </div>
-
-        <div className="overflow-x-auto py-0.5">
-          <table className="w-full min-w-[600px] border-collapse">
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
             <thead>
-              <tr className="border-b-2 border-gray-300">
-                <th className="py-3 text-left w-1/2">Item</th>
-                <th className="py-3 text-left w-1/6">Quantity</th>
-                <th className="py-3 text-left w-1/6">Unit Price</th>
-                <th className="py-3 text-left w-1/6">Amount</th>
+              <tr style={{ borderBottom: '2px solid #ddd' }}>
+                <th style={{ textAlign: 'left', padding: '12px 8px', width: '50%' }}>Item</th>
+                <th style={{ textAlign: 'left', padding: '12px 8px', width: '15%' }}>Quantity</th>
+                <th style={{ textAlign: 'left', padding: '12px 8px', width: '15%' }}>Unit Price</th>
+                <th style={{ textAlign: 'left', padding: '12px 8px', width: '20%' }}>Amount</th>
               </tr>
             </thead>
             <tbody>
-              {items.map((item) => (
-                <tr key={item.id} className="border-b border-gray-200">
-                  <td className="py-3">{item.description || "Administration Services"}</td>
-                  <td className="py-3">{item.quantity}</td>
-                  <td className="py-3">{formatCurrency(item.unitPrice)}</td>
-                  <td className="py-3">{formatCurrency(item.amount)}</td>
+              {items.map((item, index) => (
+                <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
+                  <td style={{ padding: '12px 8px' }}>{item.description || "Administration Services"}</td>
+                  <td style={{ padding: '12px 8px' }}>{item.quantity}</td>
+                  <td style={{ padding: '12px 8px' }}>{formatCurrency(item.unitPrice)}</td>
+                  <td style={{ padding: '12px 8px' }}>{formatCurrency(item.amount)}</td>
                 </tr>
               ))}
-              <tr className="border-b border-gray-200">
-                <td className="py-3"></td>
-                <td className="py-3"></td>
-                <td className="py-3">{formatCurrency(0)}</td>
-                <td className="py-3">{formatCurrency(0)}</td>
+              <tr style={{ borderBottom: '1px solid #ddd' }}>
+                <td style={{ padding: '12px 8px' }}></td>
+                <td style={{ padding: '12px 8px' }}></td>
+                <td style={{ padding: '12px 8px' }}>{formatCurrency(0)}</td>
+                <td style={{ padding: '12px 8px' }}>{formatCurrency(0)}</td>
               </tr>
             </tbody>
           </table>
-        </div>
 
-        <div className="flex justify-end mt-4">
-          <div className="w-1/2">
-            <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
-              <div className="text-end">
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ width: '50%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '8px 0' }}>
                 <span>Subtotal:</span>
-              </div>
-              <div className="text-end">
                 <span>{formatCurrency(calculateSubtotal())}</span>
               </div>
-            </div>
-            <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
-              <div className="text-end">
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '8px 0' }}>
                 <span>Total:</span>
-              </div>
-              <div className="text-end">
                 <span>{formatCurrency(calculateTotal())}</span>
               </div>
-            </div>
-            <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
-              <div className="text-end">
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '8px 0' }}>
                 <span>Amount due:</span>
-              </div>
-              <div className="text-end">
                 <span>{formatCurrency(calculateTotal())}</span>
               </div>
             </div>
