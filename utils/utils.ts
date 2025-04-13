@@ -26,36 +26,17 @@ export async function generatePDF(elementId: string) {
   // Set a slight delay to ensure all elements are rendered properly
   await new Promise(resolve => setTimeout(resolve, 100));
 
-  // Ensure all content is visible before capturing
-  const originalStyles = {
-    overflow: element.style.overflow,
-    display: element.style.display
-  };
-  
-  // Make sure the element is fully visible when capturing
-  element.style.overflow = 'visible';
-  element.style.display = 'block';
+  // Cast element to HTMLElement to access style properties
+  const htmlElement = element as HTMLElement;
 
-  const canvas = await html2canvas(element, {
+  // Use html2canvas with improved options
+  const canvas = await html2canvas(htmlElement, {
     scale: 2,
     useCORS: true,
     allowTaint: true,
     backgroundColor: "#ffffff",
-    logging: true,
-    onclone: (document, clonedElement) => {
-      // Make sure everything in the cloned element is visible
-      const allElements = clonedElement.querySelectorAll('*');
-      allElements.forEach((el) => {
-        if (el.classList.contains('hide-on-pdf')) {
-          el.style.display = 'none';
-        }
-      });
-    }
+    logging: false
   });
-
-  // Restore original styles
-  element.style.overflow = originalStyles.overflow;
-  element.style.display = originalStyles.display;
 
   const imgData = canvas.toDataURL("image/png");
   
