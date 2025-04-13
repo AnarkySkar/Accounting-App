@@ -24,8 +24,8 @@ const generateRandomInvoiceNumber = () => {
   // Format similar to the example: Y9SIZE-001
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
-  const randomNum = Math.floor(1000 + Math.random() * 9000); // 4-digit number
-  return `${randomLetter}${randomNum}IZE-001`;
+  const randomNum = Math.floor(1000 + Math.random() * 90000); // 5-digit number
+  return `INV-${randomNum}`;
 };
 
 export default function InvoiceForm() {
@@ -38,10 +38,10 @@ export default function InvoiceForm() {
   const [invoiceNumber, setInvoiceNumber] = useState(generateRandomInvoiceNumber());
 
   // Add state for customer information
-  const [customerName, setCustomerName] = useState("Digital Group di Zucchetto Diego");
-  const [customerAddress, setCustomerAddress] = useState("Via Vespri, 9");
-  const [customerCity, setCustomerCity] = useState("92020 - Racalmuto (agrigento) - ITALIA");
-  const [customerTaxId, setCustomerTaxId] = useState("02985720842");
+  const [customerName, setCustomerName] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerCity, setCustomerCity] = useState("");
+  const [customerTaxId, setCustomerTaxId] = useState("");
   const [notes, setNotes] = useState("");
 
   const [items, setItems] = useState<any[]>([
@@ -49,8 +49,8 @@ export default function InvoiceForm() {
       id: Math.random(),
       description: "Administration Services",
       quantity: 1,
-      unitPrice: 2000,
-      amount: 2000,
+      unitPrice: 0,
+      amount: 0,
     },
   ]);
   const [date, setDate] = useState<Date>(new Date());
@@ -146,11 +146,6 @@ export default function InvoiceForm() {
   // Generate a new random invoice number
   const refreshInvoiceNumber = () => {
     setInvoiceNumber(generateRandomInvoiceNumber());
-  };
-
-  const handleGeneratePDF = () => {
-    // Make sure all customer data is visible in the preview before generating
-    generatePDF("invoice-form");
   };
 
   return (
@@ -409,7 +404,7 @@ export default function InvoiceForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={handleGeneratePDF}
+                  onClick={() => generatePDF("invoice-preview")}
                   className="w-full sm:w-auto"
                 >
                   <Download className="h-4 w-4 mr-2" />
@@ -426,90 +421,94 @@ export default function InvoiceForm() {
         </Card>
       </div>
 
-      {/* Completely separate HTML section for PDF generation */}
-      <div id="invoice-form" className="hidden" style={{ position: 'absolute', left: '-9999px', width: '800px' }}>
-        <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f9f9f9' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px' }}>
-            <div>
+      {/* Hidden div for PDF generation */}
+      <div id="invoice-preview" className="hidden" style={{ padding: '20px', maxWidth: '800px' }}>
+        <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8">
+          <div>
+            <div className="mb-4">
               {logo && (
                 <img
                   src={logo}
                   alt="Logo"
-                  style={{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '4px' }}
+                  style={{ width: '100px', height: '100px', objectFit: 'contain' }}
                 />
               )}
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '8px', color: '#333' }}>
-                INVOICE
-              </h1>
-              <p style={{ fontSize: '18px', marginBottom: '8px' }}>#{invoiceNumber}</p>
-              <p>
-                <strong>Date:</strong> {format(date, "MMM dd, yyyy")}
-              </p>
+            <div>
+              <p className="font-bold">TAM SUPPORT LLC</p>
+              <p>30 N GOULD STE ST R</p>
+              <p>SHERIDAN, 82801</p>
+              <p>EIN: 61-2118570</p>
             </div>
           </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px' }}>
-            <div style={{ width: '48%' }}>
-              <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>FROM:</h2>
-              <p style={{ marginBottom: '4px' }}>TAM SUPPORT LLC</p>
-              <p style={{ marginBottom: '4px' }}>30 N GOULD STE ST R</p>
-              <p style={{ marginBottom: '4px' }}>SHERIDAN, 82801</p>
-              <p style={{ marginBottom: '4px' }}>EIN: 61-2118570</p>
-            </div>
-
-            <div style={{ width: '48%' }}>
-              <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>BILL TO:</h2>
-              <p style={{ marginBottom: '4px' }}>{customerName}</p>
-              <p style={{ marginBottom: '4px' }}>{customerAddress}</p>
-              <p style={{ marginBottom: '4px' }}>{customerCity}</p>
-              {customerTaxId && <p style={{ marginBottom: '4px' }}>TAX N°: {customerTaxId}</p>}
-            </div>
+          <div style={{ textAlign: 'right' }}>
+            <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>INVOICE</h1>
+            <p style={{ fontSize: '16px', marginBottom: '5px' }}>#{invoiceNumber}</p>
+            <p><strong>Date:</strong> {format(date, "MMM dd, yyyy")}</p>
           </div>
+        </div>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
-            <thead>
-              <tr style={{ borderBottom: '2px solid #ddd' }}>
-                <th style={{ textAlign: 'left', padding: '12px 8px', width: '50%' }}>Item</th>
-                <th style={{ textAlign: 'left', padding: '12px 8px', width: '15%' }}>Quantity</th>
-                <th style={{ textAlign: 'left', padding: '12px 8px', width: '15%' }}>Unit Price</th>
-                <th style={{ textAlign: 'left', padding: '12px 8px', width: '20%' }}>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item, index) => (
-                <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-                  <td style={{ padding: '12px 8px' }}>{item.description || "Administration Services"}</td>
-                  <td style={{ padding: '12px 8px' }}>{item.quantity}</td>
-                  <td style={{ padding: '12px 8px' }}>{formatCurrency(item.unitPrice)}</td>
-                  <td style={{ padding: '12px 8px' }}>{formatCurrency(item.amount)}</td>
-                </tr>
-              ))}
-              <tr style={{ borderBottom: '1px solid #ddd' }}>
-                <td style={{ padding: '12px 8px' }}></td>
-                <td style={{ padding: '12px 8px' }}></td>
-                <td style={{ padding: '12px 8px' }}>{formatCurrency(0)}</td>
-                <td style={{ padding: '12px 8px' }}>{formatCurrency(0)}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div style={{ display: 'flex', marginBottom: '30px' }}>
+          <div style={{ width: '50%' }}>
+            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>FROM:</h2>
+            <p>TAM SUPPORT LLC</p>
+            <p>30 N GOULD STE ST R</p>
+            <p>SHERIDAN, 82801</p>
+            <p>EIN: 61-2118570</p>
+          </div>
+          <div style={{ width: '50%' }}>
+            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>BILL TO:</h2>
+            <p>{customerName || 'Customer Name'}</p>
+            <p>{customerAddress || 'Customer Address'}</p>
+            <p>{customerCity || 'Customer City'}</p>
+            {customerTaxId && <p>TAX N°: {customerTaxId}</p>}
+          </div>
+        </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <div style={{ width: '50%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '8px 0' }}>
-                <span>Subtotal:</span>
-                <span>{formatCurrency(calculateSubtotal())}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '8px 0' }}>
-                <span>Total:</span>
-                <span>{formatCurrency(calculateTotal())}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '8px 0' }}>
-                <span>Amount due:</span>
-                <span>{formatCurrency(calculateTotal())}</span>
-              </div>
-            </div>
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '30px' }}>
+          <thead>
+            <tr style={{ borderBottom: '2px solid #ddd' }}>
+              <th style={{ textAlign: 'left', padding: '10px', width: '50%' }}>Item</th>
+              <th style={{ textAlign: 'left', padding: '10px', width: '15%' }}>Quantity</th>
+              <th style={{ textAlign: 'left', padding: '10px', width: '15%' }}>Unit Price</th>
+              <th style={{ textAlign: 'left', padding: '10px', width: '20%' }}>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, index) => (
+              <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
+                <td style={{ padding: '10px' }}>{item.description || 'Item Description'}</td>
+                <td style={{ padding: '10px' }}>{item.quantity}</td>
+                <td style={{ padding: '10px' }}>{formatCurrency(item.unitPrice)}</td>
+                <td style={{ padding: '10px' }}>{formatCurrency(item.amount)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {notes && (
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '5px' }}>Notes:</h3>
+            <p>{notes}</p>
+          </div>
+        )}
+
+        <div style={{ marginLeft: 'auto', width: '50%' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
+            <span>Subtotal:</span>
+            <span>{formatCurrency(calculateSubtotal())}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
+            <span>Tax (%):</span>
+            <span>{tax}%</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
+            <span><strong>Total:</strong></span>
+            <span><strong>{formatCurrency(calculateTotal())}</strong></span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
+            <span><strong>Amount due:</strong></span>
+            <span><strong>{formatCurrency(calculateTotal())}</strong></span>
           </div>
         </div>
       </div>
