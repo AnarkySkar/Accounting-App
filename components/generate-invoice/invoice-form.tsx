@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon, Download, Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
-import { generatePDF } from "../../utils/utils";
+import jsPDF from "jspdf";
 
 import { InvoiceDetailDialog } from "./InvoiceDetailsDialog";
 import { useAuth } from "@/context/AuthContext";
@@ -146,6 +146,105 @@ export default function InvoiceForm() {
   // Generate a new random invoice number
   const refreshInvoiceNumber = () => {
     setInvoiceNumber(generateRandomInvoiceNumber());
+  };
+
+  const handleGeneratePDF = () => {
+    try {
+      // Creare un documento PDF direttamente
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+      });
+
+      // Aggiungere il titolo
+      pdf.setFontSize(24);
+      pdf.text("INVOICE", 150, 20, { align: "right" });
+      
+      // Aggiungere il numero fattura
+      pdf.setFontSize(12);
+      pdf.text(`#${invoiceNumber}`, 150, 30, { align: "right" });
+      
+      // Aggiungere la data
+      pdf.text(`Date: ${format(date, "MMM dd, yyyy")}`, 150, 40, { align: "right" });
+      
+      // Aggiungere informazioni mittente
+      pdf.setFontSize(14);
+      pdf.text("FROM:", 20, 50);
+      pdf.setFontSize(12);
+      pdf.text("TAM SUPPORT LLC", 20, 60);
+      pdf.text("30 N GOULD STE ST R", 20, 65);
+      pdf.text("SHERIDAN, 82801", 20, 70);
+      pdf.text("EIN: 61-2118570", 20, 75);
+      
+      // Aggiungere informazioni destinatario
+      pdf.setFontSize(14);
+      pdf.text("BILL TO:", 120, 50);
+      pdf.setFontSize(12);
+      pdf.text(customerName || "Customer Name", 120, 60);
+      pdf.text(customerAddress || "Street Address", 120, 65);
+      pdf.text(customerCity || "City, State, Zip", 120, 70);
+      if (customerTaxId) {
+        pdf.text(`TAX N°: ${customerTaxId}`, 120, 75);
+      }
+      
+      // Intestazioni tabella
+      pdf.setFontSize(12);
+      pdf.setFont(undefined, 'bold');
+      pdf.text("Item", 20, 90);
+      pdf.text("Quantity", 100, 90);
+      pdf.text("Unit Price", 130, 90);
+      pdf.text("Amount", 170, 90);
+      pdf.line(20, 95, 190, 95);
+      
+      // Righe tabella (articoli)
+      pdf.setFont(undefined, 'normal');
+      let yPosition = 105;
+      items.forEach(item => {
+        pdf.text(item.description || "Item", 20, yPosition);
+        pdf.text(String(item.quantity), 100, yPosition);
+        pdf.text(`$${item.unitPrice.toFixed(2)}`, 130, yPosition);
+        pdf.text(`$${item.amount.toFixed(2)}`, 170, yPosition);
+        yPosition += 10;
+      });
+      
+      pdf.line(20, yPosition, 190, yPosition);
+      yPosition += 10;
+      
+      // Note
+      if (notes) {
+        pdf.setFontSize(14);
+        pdf.text("Notes:", 20, yPosition);
+        yPosition += 10;
+        pdf.setFontSize(12);
+        pdf.text(notes, 20, yPosition, { maxWidth: 150 });
+        yPosition += 20;
+      }
+      
+      // Totali
+      pdf.text("Subtotal:", 130, yPosition);
+      pdf.text(`$${calculateSubtotal().toFixed(2)}`, 170, yPosition);
+      yPosition += 10;
+      
+      pdf.text(`Tax (${tax}%):`, 130, yPosition);
+      pdf.text(`$${(calculateSubtotal() * tax / 100).toFixed(2)}`, 170, yPosition);
+      yPosition += 10;
+      
+      pdf.setFont(undefined, 'bold');
+      pdf.text("Total:", 130, yPosition);
+      pdf.text(`$${calculateTotal().toFixed(2)}`, 170, yPosition);
+      yPosition += 10;
+      
+      pdf.text("Amount due:", 130, yPosition);
+      pdf.text(`$${calculateTotal().toFixed(2)}`, 170, yPosition);
+      
+      // Salva il PDF
+      pdf.save("invoice.pdf");
+      console.log("PDF generated successfully");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Error generating PDF. Check console for details.");
+    }
   };
 
   return (
@@ -404,7 +503,7 @@ export default function InvoiceForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => generatePDF("invoice-preview")}
+                  onClick={handleGeneratePDF}
                   className="w-full sm:w-auto"
                 >
                   <Download className="h-4 w-4 mr-2" />
@@ -419,98 +518,6 @@ export default function InvoiceForm() {
             </form>
           </CardContent>
         </Card>
-      </div>
-
-      {/* Hidden div for PDF generation */}
-      <div id="invoice-preview" className="hidden" style={{ padding: '20px', maxWidth: '800px' }}>
-        <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8">
-          <div>
-            <div className="mb-4">
-              {logo && (
-                <img
-                  src={logo}
-                  alt="Logo"
-                  style={{ width: '100px', height: '100px', objectFit: 'contain' }}
-                />
-              )}
-            </div>
-            <div>
-              <p className="font-bold">TAM SUPPORT LLC</p>
-              <p>30 N GOULD STE ST R</p>
-              <p>SHERIDAN, 82801</p>
-              <p>EIN: 61-2118570</p>
-            </div>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>INVOICE</h1>
-            <p style={{ fontSize: '16px', marginBottom: '5px' }}>#{invoiceNumber}</p>
-            <p><strong>Date:</strong> {format(date, "MMM dd, yyyy")}</p>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', marginBottom: '30px' }}>
-          <div style={{ width: '50%' }}>
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>FROM:</h2>
-            <p>TAM SUPPORT LLC</p>
-            <p>30 N GOULD STE ST R</p>
-            <p>SHERIDAN, 82801</p>
-            <p>EIN: 61-2118570</p>
-          </div>
-          <div style={{ width: '50%' }}>
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>BILL TO:</h2>
-            <p>{customerName || 'Customer Name'}</p>
-            <p>{customerAddress || 'Customer Address'}</p>
-            <p>{customerCity || 'Customer City'}</p>
-            {customerTaxId && <p>TAX N°: {customerTaxId}</p>}
-          </div>
-        </div>
-
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '30px' }}>
-          <thead>
-            <tr style={{ borderBottom: '2px solid #ddd' }}>
-              <th style={{ textAlign: 'left', padding: '10px', width: '50%' }}>Item</th>
-              <th style={{ textAlign: 'left', padding: '10px', width: '15%' }}>Quantity</th>
-              <th style={{ textAlign: 'left', padding: '10px', width: '15%' }}>Unit Price</th>
-              <th style={{ textAlign: 'left', padding: '10px', width: '20%' }}>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item, index) => (
-              <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
-                <td style={{ padding: '10px' }}>{item.description || 'Item Description'}</td>
-                <td style={{ padding: '10px' }}>{item.quantity}</td>
-                <td style={{ padding: '10px' }}>{formatCurrency(item.unitPrice)}</td>
-                <td style={{ padding: '10px' }}>{formatCurrency(item.amount)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {notes && (
-          <div style={{ marginBottom: '20px' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '5px' }}>Notes:</h3>
-            <p>{notes}</p>
-          </div>
-        )}
-
-        <div style={{ marginLeft: 'auto', width: '50%' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
-            <span>Subtotal:</span>
-            <span>{formatCurrency(calculateSubtotal())}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
-            <span>Tax (%):</span>
-            <span>{tax}%</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
-            <span><strong>Total:</strong></span>
-            <span><strong>{formatCurrency(calculateTotal())}</strong></span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', padding: '10px 0' }}>
-            <span><strong>Amount due:</strong></span>
-            <span><strong>{formatCurrency(calculateTotal())}</strong></span>
-          </div>
-        </div>
       </div>
     </div>
   );
