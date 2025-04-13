@@ -21,11 +21,17 @@ import { useCurrency } from "@/context/CurrencyContext";
 
 // Function to generate a random invoice number
 const generateRandomInvoiceNumber = () => {
+<<<<<<< HEAD
   // Format similar to the example: Y9SIZE-001
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
   const randomNum = Math.floor(1000 + Math.random() * 9000); // 4-digit number
   return `${randomLetter}${randomNum}IZE-001`;
+=======
+  const prefix = "INV";
+  const randomNum = Math.floor(10000 + Math.random() * 90000); // 5-digit random number
+  return `${prefix}-${randomNum}`;
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
 };
 
 export default function InvoiceForm() {
@@ -190,6 +196,7 @@ export default function InvoiceForm() {
                   INVOICE
                 </h1>
                 <div className="flex md:justify-end items-center">
+<<<<<<< HEAD
                   <div className="flex flex-col items-start md:items-end">
                     <span className="text-sm font-medium">#</span>
                     <Input
@@ -199,6 +206,14 @@ export default function InvoiceForm() {
                       className="md:text-right"
                     />
                   </div>
+=======
+                  <Input
+                    name="invoiceNumber"
+                    value={invoiceNumber}
+                    onChange={(e) => setInvoiceNumber(e.target.value)}
+                    className="md:text-right"
+                  />
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                   <Button 
                     type="button" 
                     variant="ghost" 
@@ -218,7 +233,11 @@ export default function InvoiceForm() {
                         className="w-full md:w-[200px] justify-start text-left font-normal"
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
+<<<<<<< HEAD
                         {date ? format(date, "MMM dd, yyyy") : <span>Pick a date</span>}
+=======
+                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
@@ -234,6 +253,7 @@ export default function InvoiceForm() {
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div>
                 <h2 className="text-lg font-semibold mb-2">FROM:</h2>
@@ -252,22 +272,42 @@ export default function InvoiceForm() {
                   <Input name="customerAddress" placeholder="Street Address" />
                   <Input name="customerCity" placeholder="City, State, Zip" />
                 </div>
+=======
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-2">Bill To:</h2>
+              <div className="space-y-2">
+                <Input name="customerName" placeholder="Customer Name" />
+                <Input name="customerAddress" placeholder="Street Address" />
+                <Input name="customerCity" placeholder="City, State, Zip" />
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
               </div>
             </div>
 
             <div className="mb-8 overflow-x-auto">
               <div className="min-w-[600px]">
+<<<<<<< HEAD
                 <div className="grid grid-cols-12 gap-2 md:gap-4 mb-2 font-semibold text-sm md:text-base border-b-2 border-gray-200 py-2">
                   <div className="col-span-6">Item</div>
                   <div className="col-span-2">Quantity</div>
                   <div className="col-span-2">Unit Price</div>
                   <div className="col-span-2">Amount</div>
+=======
+                <div className="grid grid-cols-12 gap-2 md:gap-4 mb-2 font-semibold text-sm md:text-base">
+                  <div className="col-span-6">ITEMS</div>
+                  <div className="col-span-2">QUANTITY</div>
+                  <div className="col-span-2">UNIT PRICE</div>
+                  <div className="col-span-2">AMOUNT</div>
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                 </div>
 
                 {items.map((item) => (
                   <div
                     key={item.id}
+<<<<<<< HEAD
                     className="grid grid-cols-12 gap-2 md:gap-4 mb-2 border-b border-gray-200 py-2"
+=======
+                    className="grid grid-cols-12 gap-2 md:gap-4 mb-2"
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                   >
                     <div className="col-span-6">
                       <Input
@@ -344,7 +384,11 @@ export default function InvoiceForm() {
                 <Textarea name="notes" placeholder="Add any notes here..." />
               </div>
               <div className="space-y-2">
+<<<<<<< HEAD
                 <div className="flex justify-between border-t border-gray-200 pt-2">
+=======
+                <div className="flex justify-between">
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                   <span>Subtotal:</span>
                   <span>{formatCurrency(calculateSubtotal())}</span>
                 </div>
@@ -360,6 +404,7 @@ export default function InvoiceForm() {
                     step="0.1"
                   />
                 </div>
+<<<<<<< HEAD
                 <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-2">
                   <span>Total:</span>
                   <span>{formatCurrency(calculateTotal())}</span>
@@ -368,6 +413,12 @@ export default function InvoiceForm() {
                   <span>Amount due:</span>
                   <span>{formatCurrency(calculateTotal())}</span>
                 </div>
+=======
+                <div className="flex justify-between font-semibold text-lg">
+                  <span>Total:</span>
+                  <span>{formatCurrency(calculateTotal())}</span>
+                </div>
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
               </div>
             </div>
 
@@ -396,12 +447,21 @@ export default function InvoiceForm() {
         className="w-full max-w-4xl mx-auto p-12 md:p-12 z-[10]"
         id="invoice-form"
       >
+<<<<<<< HEAD
         <p className="mb-6 md:mb-10 text-2xl md:text-3xl font-bold hide-on-pdf">Preview</p>
         <Card className="bg-gray-50">
           <CardContent className="p-4 md:p-6">
             <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8 md:mb-10">
               <div className="space-y-2">
                 <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center rounded">
+=======
+        <p className="mb-6 md:mb-10 text-2xl md:text-3xl font-bold">Preview</p>
+        <Card>
+          <CardContent className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8 md:mb-10">
+              <div className="space-y-2">
+                <div className="w-24 h-24 md:w-32 md:h-32 bg-secondary flex items-center justify-center rounded">
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                   {logo && (
                     <img
                       src={logo}
@@ -415,16 +475,24 @@ export default function InvoiceForm() {
                 <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   INVOICE
                 </h1>
+<<<<<<< HEAD
                 <p className="text-lg">#{invoiceNumber}</p>
                 <div className="flex items-center md:justify-end gap-2">
                   <span>
                     <strong>Date:</strong> {format(date, "MMM dd, yyyy")}
+=======
+                <p className="text-lg">{invoiceNumber}</p>
+                <div className="flex items-center md:justify-end gap-2">
+                  <span>
+                    <strong>Date:</strong> {format(date, "PPP")}
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                   </span>
                 </div>
               </div>
             </div>
 
             <div className="flex mb-8 md:mb-10 gap-10">
+<<<<<<< HEAD
               <div className="w-1/2">
                 <h2 className="text-lg font-semibold mb-1">FROM:</h2>
                 <p>TAM SUPPORT LLC</p>
@@ -435,6 +503,18 @@ export default function InvoiceForm() {
 
               <div className="w-1/2">
                 <h2 className="text-lg font-semibold mb-1">BILL TO:</h2>
+=======
+              <div className="w-1/3">
+                <h2 className="text-lg font-semibold mb-1">From:</h2>
+                <p>TAM SUPPORT LLC</p>
+                <p className="text-sm md:text-base">
+                  30 N GOULD STE RN SHERIDNA 234908, EIN 234908
+                </p>
+              </div>
+
+              <div className="w-1/3">
+                <h2 className="text-lg font-semibold mb-1">Bill To:</h2>
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                 <div className="space-y-1">
                   {submittedData?.customerName && (
                     <p>{submittedData.customerName}</p>
@@ -451,16 +531,25 @@ export default function InvoiceForm() {
 
             <div className="overflow-x-auto py-0.5">
               <div className="min-w-[600px]">
+<<<<<<< HEAD
                 <div className="grid grid-cols-12 gap-2 md:gap-4 font-semibold text-sm md:text-base py-3 border-b-2 border-gray-300">
                   <div className="col-span-6">Item</div>
                   <div className="col-span-2">Quantity</div>
                   <div className="col-span-2">Unit Price</div>
                   <div className="col-span-2">Amount</div>
+=======
+                <div className="grid grid-cols-12 gap-2 md:gap-4 font-semibold text-sm md:text-base py-3">
+                  <div className="col-span-6">ITEMS</div>
+                  <div className="col-span-2">QUANTITY</div>
+                  <div className="col-span-2">UNIT PRICE</div>
+                  <div className="col-span-2">AMOUNT</div>
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                 </div>
 
                 {items?.map((item) => (
                   <div
                     key={item.id}
+<<<<<<< HEAD
                     className="grid grid-cols-12 gap-2 md:gap-4 text-sm md:text-base py-3 border-b border-gray-200"
                   >
                     <div className="col-span-6">
@@ -471,6 +560,18 @@ export default function InvoiceForm() {
                     </div>
                     <div className="col-span-2">
                       <p className="ml-0.5">
+=======
+                    className="grid grid-cols-12 gap-2 md:gap-4 text-sm md:text-base py-3"
+                  >
+                    <div className="col-span-6">
+                      <p className="ml-0.5 font-semibold">{item.description}</p>
+                    </div>
+                    <div className="col-span-2">
+                      <p className="ml-0.5 font-semibold">{item.quantity}</p>
+                    </div>
+                    <div className="col-span-2">
+                      <p className="ml-0.5 font-semibold">
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                         {formatCurrency(item.unitPrice)}
                       </p>
                     </div>
@@ -479,6 +580,7 @@ export default function InvoiceForm() {
                     </div>
                   </div>
                 ))}
+<<<<<<< HEAD
                 
                 {/* Empty row for spacing like in the example */}
                 <div className="grid grid-cols-12 gap-2 md:gap-4 text-sm md:text-base py-3 border-b border-gray-200">
@@ -517,6 +619,38 @@ export default function InvoiceForm() {
                     <span>Amount due:</span>
                   </div>
                   <div className="text-end">
+=======
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6 md:gap-8 mt-2">
+              <div className="py-3">
+                <h2 className="text-lg font-semibold mb-2">Notes:</h2>
+                <p className="text-sm md:text-base">{submittedData?.notes}</p>
+              </div>
+              <div>
+                <div className="grid grid-cols-3 py-3 gap-2 md:gap-4">
+                  <div className="col-span-2 text-end">
+                    <span>Subtotal:</span>
+                  </div>
+                  <div className="w-1/3">
+                    <span>{formatCurrency(calculateSubtotal())}</span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 py-3 gap-2 md:gap-4">
+                  <div className="col-span-2 text-end">
+                    <span>Tax (%):</span>
+                  </div>
+                  <div>
+                    <p>{tax}%</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 py-3 gap-2 md:gap-4">
+                  <div className="col-span-2 text-end">
+                    <span>Total:</span>
+                  </div>
+                  <div>
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
                     <span>{formatCurrency(calculateTotal())}</span>
                   </div>
                 </div>
@@ -527,4 +661,8 @@ export default function InvoiceForm() {
       </form>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> acafada127fc58844790c14157fe535e519d360f
