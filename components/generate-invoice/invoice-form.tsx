@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,8 +19,12 @@ import { InvoiceDetailDialog } from "./InvoiceDetailsDialog";
 import { useAuth } from "@/context/AuthContext";
 import { useCurrency } from "@/context/CurrencyContext";
 
-// import { saveInvoice } from "./actions/invoice";
-// import { type Invoice, type InvoiceItem } from "./types/invoice";
+// Function to generate a random invoice number
+const generateRandomInvoiceNumber = () => {
+  const prefix = "INV";
+  const randomNum = Math.floor(10000 + Math.random() * 90000); // 5-digit random number
+  return `${prefix}-${randomNum}`;
+};
 
 export default function InvoiceForm() {
   const { user } = useAuth();
@@ -29,6 +33,7 @@ export default function InvoiceForm() {
   const [submittedData, setSubmittedData] = useState<any>(null);
   const [logo, setLogo] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [invoiceNumber, setInvoiceNumber] = useState(generateRandomInvoiceNumber());
 
   const [items, setItems] = useState<any[]>([
     {
@@ -41,6 +46,11 @@ export default function InvoiceForm() {
   ]);
   const [date, setDate] = useState<Date>(new Date());
   const [tax, setTax] = useState<number>(0);
+
+  // Generate a new invoice number when the component mounts
+  useEffect(() => {
+    setInvoiceNumber(generateRandomInvoiceNumber());
+  }, []);
 
   const calculateAmount = (quantity: number, unitPrice: number) => {
     return quantity * unitPrice;
@@ -106,7 +116,7 @@ export default function InvoiceForm() {
     const formData = new FormData(e.target as HTMLFormElement);
 
     const invoice: any = {
-      invoiceNumber: formData.get("invoiceNumber") as string,
+      invoiceNumber: invoiceNumber,
       invDate: format(date, "yyyy-MM-dd"),
       customerName: formData.get("customerName") as string,
       customerAddress: formData.get("customerAddress") as string,
@@ -124,6 +134,11 @@ export default function InvoiceForm() {
     setSubmittedData(invoice);
 
     // await saveInvoice(invoice);
+  };
+
+  // Generate a new random invoice number
+  const refreshInvoiceNumber = () => {
+    setInvoiceNumber(generateRandomInvoiceNumber());
   };
 
   return (
@@ -172,11 +187,23 @@ export default function InvoiceForm() {
                 <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   INVOICE
                 </h1>
-                <Input
-                  name="invoiceNumber"
-                  defaultValue="3TF1S2-001"
-                  className="md:text-right"
-                />
+                <div className="flex md:justify-end items-center">
+                  <Input
+                    name="invoiceNumber"
+                    value={invoiceNumber}
+                    onChange={(e) => setInvoiceNumber(e.target.value)}
+                    className="md:text-right"
+                  />
+                  <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon"
+                    onClick={refreshInvoiceNumber}
+                    className="ml-2 hide-on-pdf"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                  </Button>
+                </div>
                 <div className="mt-4 flex items-center md:justify-end gap-2">
                   <span>Date:</span>
                   <Popover>
@@ -367,7 +394,7 @@ export default function InvoiceForm() {
                 <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   INVOICE
                 </h1>
-                <p>{submittedData?.invoiceNumber}</p>
+                <p className="text-lg">{invoiceNumber}</p>
                 <div className="flex items-center md:justify-end gap-2">
                   <span>
                     <strong>Date:</strong> {format(date, "PPP")}
@@ -472,7 +499,3 @@ export default function InvoiceForm() {
     </div>
   );
 }
-
-//  ) : (
-
-//       )}
