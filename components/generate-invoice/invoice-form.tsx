@@ -217,7 +217,7 @@ export default function InvoiceForm() {
         pdf.text("Notes:", 20, yPosition);
         yPosition += 10;
         pdf.setFontSize(12);
-        pdf.text(notes, 20, yPosition, { maxWidth: 150 });
+        pdf.text(notes ?? "", 20, yPosition, { maxWidth: 150 });
         yPosition += 20;
       }
       
