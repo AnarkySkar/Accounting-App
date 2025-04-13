@@ -38,17 +38,19 @@ export default function InvoiceForm() {
   const [invoiceNumber, setInvoiceNumber] = useState(generateRandomInvoiceNumber());
 
   // Add state for customer information
-  const [customerName, setCustomerName] = useState("");
-  const [customerAddress, setCustomerAddress] = useState("");
-  const [customerCity, setCustomerCity] = useState("");
+  const [customerName, setCustomerName] = useState("Digital Group di Zucchetto Diego");
+  const [customerAddress, setCustomerAddress] = useState("Via Vespri, 9");
+  const [customerCity, setCustomerCity] = useState("92020 - Racalmuto (agrigento) - ITALIA");
+  const [customerTaxId, setCustomerTaxId] = useState("02985720842");
+  const [notes, setNotes] = useState("");
 
   const [items, setItems] = useState<any[]>([
     {
       id: Math.random(),
-      description: "",
+      description: "Administration Services",
       quantity: 1,
-      unitPrice: 0,
-      amount: 0,
+      unitPrice: 2000,
+      amount: 2000,
     },
   ]);
   const [date, setDate] = useState<Date>(new Date());
@@ -120,7 +122,6 @@ export default function InvoiceForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
 
     const invoice: any = {
       invoiceNumber: invoiceNumber,
@@ -128,8 +129,9 @@ export default function InvoiceForm() {
       customerName: customerName,
       customerAddress: customerAddress,
       customerCity: customerCity,
+      customerTaxId: customerTaxId,
       items,
-      notes: formData.get("notes") as string,
+      notes: notes,
       subtotal: calculateSubtotal(),
       tax,
       total: calculateTotal(),
@@ -271,6 +273,12 @@ export default function InvoiceForm() {
                     value={customerCity}
                     onChange={(e) => setCustomerCity(e.target.value)}
                   />
+                  <Input 
+                    name="customerTaxId" 
+                    placeholder="Tax ID / VAT Number" 
+                    value={customerTaxId}
+                    onChange={(e) => setCustomerTaxId(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
@@ -361,7 +369,12 @@ export default function InvoiceForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <div>
                 <h2 className="text-lg font-semibold mb-2">Notes:</h2>
-                <Textarea name="notes" placeholder="Add any notes here..." />
+                <Textarea 
+                  name="notes" 
+                  placeholder="Add any notes here..." 
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between border-t border-gray-200 pt-2">
@@ -411,140 +424,111 @@ export default function InvoiceForm() {
         </Card>
       </form>
 
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-4xl mx-auto p-12 md:p-12 z-[10]"
+      <div
         id="invoice-form"
+        className="w-full max-w-4xl mx-auto mt-12 mb-12 bg-gray-50 p-8 rounded-lg border border-gray-200"
       >
-        <p className="mb-6 md:mb-10 text-2xl md:text-3xl font-bold hide-on-pdf">Preview</p>
-        <Card className="bg-gray-50">
-          <CardContent className="p-4 md:p-6">
-            <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8 md:mb-10">
-              <div className="space-y-2">
-                <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center rounded">
-                  {logo && (
-                    <img
-                      src={logo}
-                      alt="Logo"
-                      className="w-full h-full object-cover rounded"
-                    />
-                  )}
-                </div>
+        <div className="flex flex-col md:flex-row md:justify-between gap-6 mb-8 md:mb-10">
+          <div className="space-y-2">
+            <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center rounded">
+              {logo && (
+                <img
+                  src={logo}
+                  alt="Logo"
+                  className="w-full h-full object-cover rounded"
+                />
+              )}
+            </div>
+          </div>
+          <div className="text-left md:text-right flex flex-col gap-1">
+            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
+              INVOICE
+            </h1>
+            <p className="text-lg">#{invoiceNumber}</p>
+            <div className="flex items-center md:justify-end gap-2">
+              <span>
+                <strong>Date:</strong> {format(date, "MMM dd, yyyy")}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex mb-8 md:mb-10 gap-10">
+          <div className="w-1/2">
+            <h2 className="text-lg font-semibold mb-1">FROM:</h2>
+            <p>TAM SUPPORT LLC</p>
+            <p>30 N GOULD STE ST R</p>
+            <p>SHERIDAN, 82801</p>
+            <p>EIN: 61-2118570</p>
+          </div>
+
+          <div className="w-1/2">
+            <h2 className="text-lg font-semibold mb-1">BILL TO:</h2>
+            <p>{customerName}</p>
+            <p>{customerAddress}</p>
+            <p>{customerCity}</p>
+            {customerTaxId && <p>TAX N°: {customerTaxId}</p>}
+          </div>
+        </div>
+
+        <div className="overflow-x-auto py-0.5">
+          <table className="w-full min-w-[600px] border-collapse">
+            <thead>
+              <tr className="border-b-2 border-gray-300">
+                <th className="py-3 text-left w-1/2">Item</th>
+                <th className="py-3 text-left w-1/6">Quantity</th>
+                <th className="py-3 text-left w-1/6">Unit Price</th>
+                <th className="py-3 text-left w-1/6">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <tr key={item.id} className="border-b border-gray-200">
+                  <td className="py-3">{item.description || "Administration Services"}</td>
+                  <td className="py-3">{item.quantity}</td>
+                  <td className="py-3">{formatCurrency(item.unitPrice)}</td>
+                  <td className="py-3">{formatCurrency(item.amount)}</td>
+                </tr>
+              ))}
+              <tr className="border-b border-gray-200">
+                <td className="py-3"></td>
+                <td className="py-3"></td>
+                <td className="py-3">{formatCurrency(0)}</td>
+                <td className="py-3">{formatCurrency(0)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex justify-end mt-4">
+          <div className="w-1/2">
+            <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
+              <div className="text-end">
+                <span>Subtotal:</span>
               </div>
-              <div className="text-left md:text-right flex flex-col gap-1">
-                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                  INVOICE
-                </h1>
-                <p className="text-lg">#{invoiceNumber}</p>
-                <div className="flex items-center md:justify-end gap-2">
-                  <span>
-                    <strong>Date:</strong> {format(date, "MMM dd, yyyy")}
-                  </span>
-                </div>
+              <div className="text-end">
+                <span>{formatCurrency(calculateSubtotal())}</span>
               </div>
             </div>
-
-            <div className="flex mb-8 md:mb-10 gap-10">
-              <div className="w-1/2">
-                <h2 className="text-lg font-semibold mb-1">FROM:</h2>
-                <p>TAM SUPPORT LLC</p>
-                <p>30 N GOULD STE ST R</p>
-                <p>SHERIDAN, 82801</p>
-                <p>EIN: 61-2118570</p>
+            <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
+              <div className="text-end">
+                <span>Total:</span>
               </div>
-
-              <div className="w-1/2">
-                <h2 className="text-lg font-semibold mb-1">BILL TO:</h2>
-                <div className="space-y-1">
-                  {customerName && (
-                    <p>{customerName}</p>
-                  )}
-                  {customerAddress && (
-                    <p>{customerAddress}</p>
-                  )}
-                  {customerCity && (
-                    <p>{customerCity}</p>
-                  )}
-                </div>
+              <div className="text-end">
+                <span>{formatCurrency(calculateTotal())}</span>
               </div>
             </div>
-
-            <div className="overflow-x-auto py-0.5">
-              <div className="min-w-[600px]">
-                <div className="grid grid-cols-12 gap-2 md:gap-4 font-semibold text-sm md:text-base py-3 border-b-2 border-gray-300">
-                  <div className="col-span-6">Item</div>
-                  <div className="col-span-2">Quantity</div>
-                  <div className="col-span-2">Unit Price</div>
-                  <div className="col-span-2">Amount</div>
-                </div>
-
-                {items?.map((item) => (
-                  <div
-                    key={item.id}
-                    className="grid grid-cols-12 gap-2 md:gap-4 text-sm md:text-base py-3 border-b border-gray-200"
-                  >
-                    <div className="col-span-6">
-                      <p className="ml-0.5">{item.description || "Administration Services"}</p>
-                    </div>
-                    <div className="col-span-2">
-                      <p className="ml-0.5">{item.quantity}</p>
-                    </div>
-                    <div className="col-span-2">
-                      <p className="ml-0.5">
-                        {formatCurrency(item.unitPrice)}
-                      </p>
-                    </div>
-                    <div className="col-span-2">
-                      {formatCurrency(item.amount)}
-                    </div>
-                  </div>
-                ))}
-                
-                {/* Empty row for spacing like in the example */}
-                <div className="grid grid-cols-12 gap-2 md:gap-4 text-sm md:text-base py-3 border-b border-gray-200">
-                  <div className="col-span-6"></div>
-                  <div className="col-span-2"></div>
-                  <div className="col-span-2">
-                    {formatCurrency(0)}
-                  </div>
-                  <div className="col-span-2">
-                    {formatCurrency(0)}
-                  </div>
-                </div>
+            <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
+              <div className="text-end">
+                <span>Amount due:</span>
+              </div>
+              <div className="text-end">
+                <span>{formatCurrency(calculateTotal())}</span>
               </div>
             </div>
-
-            <div className="flex justify-end mt-4">
-              <div className="w-1/2">
-                <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
-                  <div className="text-end">
-                    <span>Subtotal:</span>
-                  </div>
-                  <div className="text-end">
-                    <span>{formatCurrency(calculateSubtotal())}</span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
-                  <div className="text-end">
-                    <span>Total:</span>
-                  </div>
-                  <div className="text-end">
-                    <span>{formatCurrency(calculateTotal())}</span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 py-2 gap-2 border-b border-gray-200">
-                  <div className="text-end">
-                    <span>Amount due:</span>
-                  </div>
-                  <div className="text-end">
-                    <span>{formatCurrency(calculateTotal())}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
